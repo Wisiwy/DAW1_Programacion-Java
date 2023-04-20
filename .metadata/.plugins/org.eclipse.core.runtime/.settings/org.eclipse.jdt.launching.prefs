@@ -1,2 +1,6 @@
 eclipse.preferences.version=1
+<<<<<<< Updated upstream
 org.eclipse.jdt.launching.PREF_VM_XML=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<vmSettings defaultVM\="57,org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType13,1681987281206" defaultVMConnector\="">\n    <vmType id\="org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType">\n        <vm id\="1681987281206" name\="jre" path\="/app/eclipse/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.linux.x86_64_17.0.4.v20220903-1038/jre"/>\n    </vmType>\n</vmSettings>\n
+=======
+org.eclipse.jdt.launching.PREF_VM_XML=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<vmSettings defaultVM\="57,org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType13,1682012616156" defaultVMConnector\="">\r\n    <vmType id\="org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType">\r\n        <vm id\="1682012616156" name\="jdk-17.0.2" path\="C\:\\Program Files\\Java\\jdk-17.0.2"/>\r\n    </vmType>\r\n</vmSettings>\r\n
+>>>>>>> Stashed changes
