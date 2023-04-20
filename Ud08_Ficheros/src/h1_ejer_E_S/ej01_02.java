@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ej1 {
+public class ej01_02 {
 
 	public static void main(String[] args) {
-		/**
+		/*********************************************************
 		 * 1. Pide el nombre, después pide el apellido y al final saluda en una sola
 		 * línea. (BufferedReader y Scanner)
-		 */
+		 ********************************************************/
 		// creamos fichero con nombre
 		File fnom = new File("/home/molossguay/Documents/Pro_wk_bajar-y-borrar/Ud08_Ficheros/Fichers/01_NomYApe.txt");
 		if (fnom.exists()) {
@@ -71,10 +71,10 @@ public class ej1 {
 //		String ape = t.nextLine();
 //		System.out.println("Hola soy "+ nom + ape+ ". ¡Feliz Navidad");
 
-		/**
+		/***************************************************
 		 * 2. Pedir dos números y decir si son iguales o distintos. (BufferedReader y
 		 * Scanner)
-		 */
+		 *******************************************************/
 
 		// buffered writer
 		FileWriter fw = abrirWriter(fnom);
