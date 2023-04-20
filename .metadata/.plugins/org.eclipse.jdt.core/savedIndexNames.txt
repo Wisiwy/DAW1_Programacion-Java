@@ -1,0 +1,5 @@
+INDEX VERSION 1.131+D:\07 FP_DAW\DAW1_Programacion-Java\.metadata\.plugins\org.eclipse.jdt.core
+2205526526.index
+3959137331.index
+3344509396.index
+1347647488.index
