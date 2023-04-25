@@ -1,4 +1,4 @@
-package Sqlite;
+package BBDD_Squile_MySQL;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
