@@ -7,6 +7,9 @@
 		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="D:\1DAW_FP\DAW1_Programacion-Java"/>
+			<item value="D:\1DAW_FP\DAW1_Programacion-Java\Ud09_BBDD"/>
+			<item value="D:\1DAW_FP\Programacion_test2"/>
 			<item value="D:\07 FP_DAW\DAW1_Programacion-Java"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
