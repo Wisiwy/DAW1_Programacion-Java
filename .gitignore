@@ -4,3 +4,7 @@
 *.prefs
 *.log
 
+.metadata/.plugins/org.eclipse.core.resources/.history/13/f06b3b3939e3001d1d40ce9b8692f679
+.metadata/.plugins/org.eclipse.core.resources/.history/14/c0c373b840e3001d1d40ce9b8692f679
+.metadata*
+*.db
