@@ -9,9 +9,10 @@ public class Empleado {
 	private Integer ID_Localidad;
 	private Integer telefono;
 	private String direc;
+	private Integer sueldo;
 	private Integer antiguedad;
 
-	public Empleado(String nom, String ape, Integer iD_Localidad, Integer telefono, String direc, Integer antiguedad) {
+	public Empleado(String nom, String ape, Integer iD_Localidad, Integer telefono, String direc, Integer antiguedad, Integer sueldo) {
 		this.ID_empleado = cont;
 		cont = +10;
 		this.nom = nom;
@@ -19,6 +20,7 @@ public class Empleado {
 		ID_Localidad = iD_Localidad;
 		this.telefono = telefono;
 		this.direc = direc;
+		this.sueldo = sueldo;
 		this.antiguedad = antiguedad;
 	}
 
@@ -68,6 +70,13 @@ public class Empleado {
 
 	public void setDirec(String direc) {
 		this.direc = direc;
+	}
+	public Integer getSueldo() {
+		return sueldo;
+	}
+	
+	public void setSueldo(Integer sueldo) {
+		this.sueldo = sueldo;
 	}
 
 	public Integer getAntiguedad() {

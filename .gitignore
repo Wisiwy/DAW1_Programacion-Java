@@ -1,5 +1,6 @@
 
 \#Apun-y-Ejer/Recursos (sheets, retos, otros..)/Programacion_LibroEjer_Ra-Ma.pdf
+
 .metadata
 bin/
 tmp/
@@ -64,3 +65,5 @@ local.properties
 # Uncomment this line if you wish to ignore the project description file.
 # Typically, this file would be tracked if it contains build/dependency configurations:
 #.project
+*.prefs
+
