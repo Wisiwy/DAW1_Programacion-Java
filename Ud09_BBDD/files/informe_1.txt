@@ -1,0 +1,44 @@
+EMPLEADOS 
+ ------------------------------
+| ID        | NOMBRE    | APELLIDO  | LOC       | TELEFONO  | DIRECCION | SALARIO   | ANTIGUEDAD
+------------------------------------------------------------------------------------------------
+| 7369      | FEDERICO  | S�NCHEZ   | 1023      | 654789789 | c\aviador | 1040.0    | 20         
+| 7499      | SUSANA    | ARROYO    | 1011      | 654987987 | c\aviador | 1500.0    | 30         
+| 7521      | JAVIER    | SALA      | 1011      | 654123123 | c\aviador | 1625.0    | 30         
+| 7566      | MARIA     | JIM�NEZ   | 1021      | 654321321 | c\aviador | 2900.0    | 20         
+| 7654      | ESTEBAN   | MART�N    | 1032      | 654741741 | c\aviador | 1600.0    | 30         
+| 7698      | LAURA     | NEGRO     | 1013      | 654963963 | c\aviador | 3005.0    | 30         
+| 7782      | GONZALO   | CEREZO    | 1023      | 654852852 | c\aviador | 2885.0    | 10         
+| 7788      | FABIOLA   | GIL       | 1024      | 654258258 | c\aviador | 3000.0    | 20         
+| 7839      | GERMAN    | REY       | 1031      | 654742365 | c\aviador | 4100.0    | 10         
+| 7844      | MARTA     | TOVAR     | 1031      | 654147147 | c\aviador | 1350.0    | 30         
+| 10        | raul      | gomez     | 12        | 1134141   | Calle     | 21.0      | 300        
+11 tuplas 
+23026.0 salario total 
+LOCALIDADES 
+ ------------------------------
+| ID_LOC    | LOCALIDAD | PROV      
+------------------------------------
+| 1011      | Huesca    | 101        
+| 1012      | Arguis    | 101        
+| 1013      | Barbastro | 101        
+| 1014      | Monzon    | 101        
+| 1021      | Utebo     | 102        
+| 1022      | Monzalbarba| 102        
+| 1023      | Casetas   | 102        
+| 1024      | Figueruelas| 102        
+| 1031      | Alca�iz   | 103        
+| 1032      | Caspe     | 103        
+10 tuplas 
+PROVINCIAS 
+ ------------------------------
+| ID_PROV   | PROVINCIA 
+------------------------
+| 101       | Huesca     
+| 102       | Zaragoza   
+| 103       | Teruel     
+| 11        | Lerida     
+| 12        | Tarragona  
+| 13        | Barcelona  
+| 14        | Gerona     
+7 tuplas 
