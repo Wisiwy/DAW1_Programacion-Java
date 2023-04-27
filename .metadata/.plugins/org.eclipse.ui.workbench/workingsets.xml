@@ -10,5 +10,7 @@
 <workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1681981643462_2" label="Window Working Set" name="Aggregate for window 1681981643462"/>
 <workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1682016502538_5" label="Window Working Set" name="Aggregate for window 1682016502538"/>
 <workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1682522973469_6" label="Window Working Set" name="Aggregate for window 1682522973469"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1682581651419_7" label="Window Working Set" name="Aggregate for window 1682581651419"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1682582112141_8" label="Window Working Set" name="Aggregate for window 1682582112141"/>
 <mruList name="Examenes"/>
 </workingSetManager>
