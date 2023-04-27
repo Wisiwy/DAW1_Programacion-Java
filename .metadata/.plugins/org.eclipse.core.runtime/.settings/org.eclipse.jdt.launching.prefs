@@ -1,5 +1,0 @@
-=\=\=\=\=\=\=
-<<<<<<<=Updated upstream
->>>>>>>=Stashed changes
-eclipse.preferences.version=1
-org.eclipse.jdt.launching.PREF_VM_XML=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<vmSettings defaultVM\="57,org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType13,1682581656983" defaultVMConnector\="">\n    <vmType id\="org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType">\n        <vm id\="1682012616156" name\="jdk-17.0.2" path\="/home/molossguay/C\:\\Program Files\\Java\\jdk-17.0.2"/>\n        <vm id\="1682581656983" javadocURL\="https\://docs.oracle.com/en/java/javase/17/docs/api/" name\="jre" path\="/app/eclipse/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.linux.x86_64_17.0.4.v20220903-1038/jre"/>\n    </vmType>\n</vmSettings>\n
