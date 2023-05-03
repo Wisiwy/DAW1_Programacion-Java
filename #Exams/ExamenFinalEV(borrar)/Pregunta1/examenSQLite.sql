@@ -1,4 +1,4 @@
-
+  
 -- Volcando estructura para tabla examen.atleta
 DROP TABLE IF EXISTS `atleta`;
 CREATE TABLE IF NOT EXISTS `atleta` (
