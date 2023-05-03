@@ -1,8 +1,12 @@
 package Exam20_21;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,7 +54,7 @@ public class PrincipalP2 {
 			System.out.println("***************LISTA ORDENADA POR APE-NOM***********");
 			verList(lista);
 			System.out.println("***************LISTA ORDENADA POR FECHA***********");
-				//CALENDAR COMO SE USA PARA ORDENAR POR FECHAS. 
+			// CALENDAR COMO SE USA PARA ORDENAR POR FECHAS.
 			System.out.println("***************LISTA ORDENADA POR INSTANCIA***********");
 			ordenarPorInstancia(lista);
 			verList(lista);
@@ -59,8 +63,15 @@ public class PrincipalP2 {
 
 			// crear archivos pruebas
 			archivosPruebas(lista);
-			
-			//crear participantes.dat archivo de objetos ¿como se hace?
+
+			// crear participantes.dat archivo de objetos. Lectura y escritura de ois. s
+			System.out.println("***************LISTA PARTICIPANTE .DAT***********");
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("participantes.dat"));
+			oos.writeObject(lista);
+			oos.close();
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream("participantes.dat"));
+			List<ParticipanteP2> aux = (List<ParticipanteP2>) ois.readObject();
+			verList(aux);
 
 		} catch (SAXException | IOException e) {
 			// TODO Auto-generated catch block
@@ -74,6 +85,9 @@ public class PrincipalP2 {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		// cargaSinXML si no pod�is leer los datos del fichero XML
@@ -84,11 +98,11 @@ public class PrincipalP2 {
 		File f;
 		borraFicheros(lista);
 		for (ParticipanteP2 participanteP2 : lista) {
-			f= cogerArchivo(participanteP2);
-			escribirParticipante(f,participanteP2);
-			
+			f = cogerArchivo(participanteP2);
+			escribirParticipante(f, participanteP2);
+
 		}
-		//FORMA SIN COMPARTAOR ORDENAR POR INSTANCIA
+		// FORMA SIN COMPARTAOR ORDENAR POR INSTANCIA
 //		List<ParticipanteP2> listDepor = new ArrayList();
 //		for (ParticipanteP2 participanteP2 : lista) {
 //
@@ -106,7 +120,7 @@ public class PrincipalP2 {
 //			f= cogerArchivo(participanteP2);
 //			escribirParticipante(f, participanteP2);
 //		}
-
+		
 	}
 
 	private static void ordenarPorInstancia(List<ParticipanteP2> lista) {
