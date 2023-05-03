@@ -89,7 +89,7 @@ public class GestionDB {
 	}
 
 	private static void altaAtleta(Connection conn) throws SQLException {
-		Atleta aux = crearAtleta();
+		AtletaP1 aux = crearAtleta();
 		String insert = "INSERT INTO atleta VALUES (?,?,?,?,?,?)";
 		PreparedStatement ps = conn.prepareStatement(insert);
 
@@ -104,7 +104,7 @@ public class GestionDB {
 		System.out.println("Alta realizada!!");
 	}
 
-	private static Atleta crearAtleta() {
+	private static AtletaP1 crearAtleta() {
 		Dibujo.titulo("ALTA ALTETA");
 		String nom = Leer.leerString("Nombre: ");
 		String ape = Leer.leerString("Apellido: ");
@@ -113,7 +113,7 @@ public class GestionDB {
 		String prueba = Leer.leerString("Prueba: ");
 		String marca = Leer.leerString("Marca: ");
 
-		return new Atleta(nom, ape, sexo, fecha_nac, prueba, marca);
+		return new AtletaP1(nom, ape, sexo, fecha_nac, prueba, marca);
 	}
 
 	private static Connection leerConexionBD(File f) throws IOException, SQLException {

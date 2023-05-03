@@ -1,6 +1,6 @@
 package Exam20_21;
 
-public class Atleta {
+public class AtletaP1 {
 	private String nom;
 	private String ape;
 	private String sexo;
@@ -8,10 +8,10 @@ public class Atleta {
 	private String prueba;
 	private String marca;
 
-	public Atleta() {
+	public AtletaP1() {
 	}
 
-	public Atleta(String nom, String ape, String sexo, String fecha_nac, String prueba, String marca) {
+	public AtletaP1(String nom, String ape, String sexo, String fecha_nac, String prueba, String marca) {
 		super();
 		this.nom = nom;
 		this.ape = ape;
