@@ -66,10 +66,10 @@ public class PrincipalP2 {
 
 			// crear participantes.dat archivo de objetos. Lectura y escritura de ois. s
 			System.out.println("***************LISTA PARTICIPANTE .DAT***********");
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("participantes.dat"));
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("files/participantes.dat"));
 			oos.writeObject(lista);
 			oos.close();
-			ObjectInputStream ois = new ObjectInputStream(new FileInputStream("participantes.dat"));
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream("files/participantes.dat"));
 			List<ParticipanteP2> aux = (List<ParticipanteP2>) ois.readObject();
 			verList(aux);
 
