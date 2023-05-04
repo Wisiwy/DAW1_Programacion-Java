@@ -41,7 +41,7 @@ public class Input {
 		
 		Path path = Paths.get(filePath);
 		try {
-			input = Files.readAllLines(path);
+//			input = Files.readAllLines(path);
 		} catch (Exception e) {
 			System.err.println("No se ha encontrado el archivo con ruta " + filePath);
 		}
@@ -66,7 +66,7 @@ public class Input {
 			}
 			Path path = Paths.get(filePath);
 			try {
-				input = Files.readAllLines(path);
+//				input = Files.readAllLines(path);
 			} catch (Exception e) {
 				System.err.println("No se ha encontrado el archivo con ruta " + filePath);
 			}

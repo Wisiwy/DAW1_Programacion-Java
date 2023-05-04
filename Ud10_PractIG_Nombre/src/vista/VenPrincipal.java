@@ -21,7 +21,21 @@ public class VenPrincipal extends JFrame {
 	private JPanel contentPane;
 	static ManejaDB maneja;
 	
-
+//TEORIOA
+	//Botones
+		//Añadir evento - brndrch/Add event handler al boton
+			//Cuando se pierde el foco al salir del cursor se valide que tenga
+			//la REGEX adecuada
+	//Ventantas
+		//Nombrar ventantas
+	//al accionar un boton que la ventanta que queramos se abra. 
+	//cudidado entre jFrame(la ventana) y JPanel (mirar en jFrame el Hide on Close
+	//absoluteLayour. Añadir a la ventana. 
+		
+	
+	
+	
+	
 	/**
 	 * Launch the application.
 	 */

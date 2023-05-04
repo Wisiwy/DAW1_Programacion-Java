@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import aUtilidad.Ficheros;
+
 public class CreateDB {
 
 	private Connection c;
@@ -37,6 +39,14 @@ public class CreateDB {
 		sent.executeUpdate(sql);
 		sent.close();
 
+	}
+	
+	public void cargarExcelCsv(File fCsv) throws FileNotFoundException {
+		//ignorar las 3 primeras lineas
+		BufferedReader br = Ficheros.abrirBR(fCsv);
+		//mirar los puntos y comas para cargarlos correctamente
+		
+		//mirar para como dejo null si no hay nada entre los puntos y comas
 	}
 
 	/**
