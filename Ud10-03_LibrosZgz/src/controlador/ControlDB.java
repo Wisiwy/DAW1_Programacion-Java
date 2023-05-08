@@ -1,11 +1,20 @@
 package controlador;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import aUtilidad.Dibujo;
+import aUtilidad.Ficheros;
 import aUtilidad.Leer;
 import modelo.Libro;
 
@@ -19,6 +28,65 @@ public class ControlDB {
 
 	public void cerrarConn() throws SQLException {
 		c.close();
+	}
+	
+	public void cargarExcelCsv(File fCsv) throws IOException, SQLException {
+		// ignorar las 3 primeras lineas
+		System.out.println("CARGAR FICHERO CSV");
+		BufferedReader br = Ficheros.abrirBR(fCsv);
+		String linea = br.readLine();
+		int cuentaCampos = 0;// max 12 campos
+
+		while (linea != null) {
+			if (linea.matches("^\\d.*")) { // ^ siginifica principio strin \d numero
+
+				//creamos una lista de 12 de tamaño con el array del split
+				//y setemos nulos si fuera necesario
+				String[] strArray = linea.split(";");
+				List<String> strList = new ArrayList<String>();
+				
+				strList.addAll(Arrays.asList(strArray));
+				System.out.println(strList.size() + " Original longitud list");
+				if(strList.size()<12) {
+					for (int i = strList.size(); i < 12; i++) {
+						//PORQUE COÑO NO ME PONE EL INDICE DONDE YO QUIERO NO ME PASA DEL TAMAÑO AL PONERLO 
+						strList.add("null");
+//						strList.add(I,"");
+//						indice++;
+					}
+				}
+				System.out.println(strList.size() + " longitud list");
+				Dibujo.pintarLista(strList);
+				System.out.println();
+				
+				//creamos nuevo libro a partir de la lista e insertamos en la BD
+//				insertLibro(newLibro(strList));
+				
+			}
+			linea = br.readLine();
+
+		}
+		br.close();
+		// mirar los puntos y comas para cargarlos correctamente
+
+		// mirar para como dejo null si no hay nada entre los puntos y comas
+	}
+
+	private Libro newLibro(List<String> strList) {
+		Libro l = new Libro();
+		l.setNum(Integer.parseInt(strList.get(0)));
+		l.setTitulo(strList.get(1));
+		l.setAutor(strList.get(2));
+		l.setAnyo(Integer.parseInt(strList.get(3)));
+		l.setTematica(strList.get(4));
+		l.setUbicacion(strList.get(5));
+		l.setEditorial(strList.get(6));
+		l.setIsbn(strList.get(7));
+		l.setPaginas(Integer.parseInt(strList.get(8)));
+		l.setEdad(strList.get(9));
+		l.setObservaciones(strList.get(10));
+		l.setFechaAdquisicion(strList.get(10));
+		return l;
 	}
 
 	public void insertLibro(Libro l) throws SQLException {
@@ -38,10 +106,12 @@ public class ControlDB {
 		ps.setInt(9, l.getPaginas());
 		ps.setString(10, l.getEdad());
 		ps.setString(11, l.getObservaciones());
-		ps.setDate(13, l.getFechaAdquisicion());
+		ps.setString(12, l.getFechaAdquisicion());
 
 		ps.executeUpdate();
+		ps.close();
 		System.out.println("Libro insertado");
+		
 
 	}
 
@@ -52,7 +122,7 @@ public class ControlDB {
 	 * @return
 	 */
 	private String prepareInsert(String nomTabla, Libro l) {
-		int numFields = l.getClass().getDeclaredFields().length - 1;
+		int numFields = l.getClass().getDeclaredFields().length;
 		String insert = "INSERT INTO " + nomTabla + " VALUES (";
 		for (int i = 1; i <= numFields; i++) {
 			if (i == numFields)
@@ -74,7 +144,9 @@ public class ControlDB {
 	public void borrarLibro(Integer idLibro) throws SQLException {
 		// ATENCION posible enrror en no poner al final del detete ;
 		String delete = "DELETE FROM libros WHERE id = ?";
+		
 		PreparedStatement ps = c.prepareStatement(delete);
+		ps.setInt(1, idLibro);
 		ps.executeUpdate();
 		System.out.println("Libro borrado.");
 		ps.close();
@@ -82,17 +154,16 @@ public class ControlDB {
 	}
 
 	public void updateTabla(Integer id, String nomTabla, String nomColumn) throws SQLException {
-		String nuevoDato = Leer.leerString("Intro nuevo" + nomColumn);
-		String dataType = tipoDato(nomColumn,nomTabla);
+		String nuevoDato = Leer.leerString("Intro nuevo " + nomColumn +": ");
+//		String dataType = tipoDato(nomColumn, nomTabla);
 //		parsearDato(nuevoDato);
 		// convertir de string al dato que sea necesario
-		String update = "UPDATE" + nomTabla + "SET " + nomColumn 
-						+ "=" + nuevoDato + "WHERE id = " + id;
+        String sql = "UPDATE " + nomTabla + " SET " + nomColumn + " = '" + nuevoDato + "' WHERE id = " + id;
 		
-		//ejecutar sentencia
-		Statement senten = c.createStatement();
-		senten.executeUpdate(update);
-		System.out.println(nomColumn + "modificado correctamente. ");
+		// ejecutar sentencia
+        Statement senten = c.createStatement();
+		int row = senten.executeUpdate(sql);
+		System.out.println(nomColumn +"de fila nº "+ row+ "modificado correctamente. ");
 		senten.close();
 
 		// pregunta se puede poner para que la lectura sea de cualquier tipo de datç
@@ -101,13 +172,53 @@ public class ControlDB {
 
 	private String tipoDato(String nomColumn, String nomTabla) throws SQLException {
 		Statement senten = c.createStatement();
-		ResultSet rs = senten.executeQuery("SELECT "+nomColumn+" FROM"+nomTabla+";");
-		System.out.println("Tipo de dato "+ (rs.getMetaData().getColumnTypeName(0)));
+		ResultSet rs = senten.executeQuery("SELECT " + nomColumn + " FROM" + nomTabla + ";");
+		System.out.println("Tipo de dato " + (rs.getMetaData().getColumnTypeName(0)));
 		return rs.getMetaData().getColumnTypeName(0);
 	}
 
-	public void selectTabla() {
+	
+	/**
+	 * Seleccona y muestra por consola la tabla cuyo nombre pasemos. 
+	 * @param nombre de la tabla
+	 */
+	public void selectTabla(String tabla) {
 
+		String cab = "";
+		try {
+			Statement sentencia = c.createStatement();
+			ResultSet res = sentencia.executeQuery("SELECT * FROM " + tabla);
+			// recogemos metadatos
+			ResultSetMetaData rsmd = res.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+
+			// dibuja cabecera
+			for (int i = 1; i <= columnsNumber; i++) {
+				cab += String.format("| %-10s", rsmd.getColumnName(i).toUpperCase());
+			}
+			System.out.println(cab);
+			for (int i = 0; i < cab.length(); i++)
+				System.out.print("-");
+			System.out.println("");
+
+			// dibuja datos
+			while (res.next()) {
+				for (int i = 1; i <= columnsNumber; i++) {
+					String columnValue = res.getString(i);
+					System.out.printf("| %-10s", columnValue);
+
+				}
+				System.out.println();
+			}
+			sentencia.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (int i = 0; i < cab.length(); i++)
+			System.out.print("-");
+		System.out.println();
 	}
 
 }

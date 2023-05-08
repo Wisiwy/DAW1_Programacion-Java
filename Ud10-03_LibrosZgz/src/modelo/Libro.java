@@ -1,6 +1,8 @@
 package modelo;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class Libro {
 	public Integer num;
@@ -14,13 +16,13 @@ public class Libro {
 	public Integer paginas;
 	public String edad;
 	public String observaciones;
-	public Date fechaAdquisicion;
+	public String fechaAdquisicion;
 
 	public Libro() {
 	};
 
 	public Libro(Integer num, String titulo, String autor, Integer año, String tematica, String ubicacion,
-			String editorial, String iSBN, Integer paginas, String edad, String observaciones, Date fechaAdquisicion) {
+			String editorial, String iSBN, Integer paginas, String edad, String observaciones, String fechaAdquisicion) throws ParseException {
 		super();
 		this.num = num;
 		this.titulo = titulo;
@@ -142,12 +144,14 @@ public class Libro {
 		this.observaciones = observaciones;
 	}
 
-	public Date getFechaAdquisicion() {
+	public String getFechaAdquisicion() {
 		return fechaAdquisicion;
 	}
 
-	public void setFechaAdquisicion(Date fechaAdquisicion) {
+	public void setFechaAdquisicion(String fechaAdquisicion) {
 		this.fechaAdquisicion = fechaAdquisicion;
 	}
+
+	
 
 }

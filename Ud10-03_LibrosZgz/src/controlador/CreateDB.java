@@ -5,49 +5,45 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
+import com.mysql.jdbc.ResultSetMetaData;
+
+import aUtilidad.Dibujo;
 import aUtilidad.Ficheros;
+import modelo.Libro;
 
 public class CreateDB {
 
-	private Connection c;
+	private Connection conn;
 
 	public CreateDB(Connection conn) {
-		this.c = conn;
+		this.conn = conn;
 	}
 
 	public void createTableLibros(String nomTabla) throws SQLException {
 
-		Statement sent = c.createStatement();
-		String sql = "CREATE TABLE " + nomTabla + "("
-				+ "id NUMBER(4),"
-				+ "titulo VARCHAR(75),"
-				+ "autor VARCHAR(50),"
-				+ "año NUMBER(4),"
-				+ "tematica VARCHAR(25),"
-				+ "ubicacion VARCHAR(25),"
-				+ "editorial VARCHAR(25),"
-				+ "paginas NUMBER(5)"
-				+ "edad VARCHAR (20)"
-				+ "observaciones VARCHAR(200)"
-				+ "fechaAdquisicion DATE "
-				+ ");";
+		Statement sent = conn.createStatement();
+		String sql = "CREATE TABLE " + nomTabla + "(" + "id NUMBER(4)," + "titulo VARCHAR(75)," + "autor VARCHAR(50),"
+				+ "anyo NUMBER(4)," + "tematica VARCHAR(25)," + "ubicacion VARCHAR(25)," + "editorial VARCHAR(25),"
+				+ "isbn VARCHAR(25)," + "paginas NUMBER(5)," + "edad VARCHAR(20)," + "observaciones VARCHAR(200),"
+				+ "fechaAdquisicion VARCHAR(25) " + ");";
 
 		sent.executeUpdate(sql);
 		sent.close();
 
 	}
+
 	
-	public void cargarExcelCsv(File fCsv) throws FileNotFoundException {
-		//ignorar las 3 primeras lineas
-		BufferedReader br = Ficheros.abrirBR(fCsv);
-		//mirar los puntos y comas para cargarlos correctamente
-		
-		//mirar para como dejo null si no hay nada entre los puntos y comas
-	}
 
 	/**
 	 * Ejecuta un archivo Sql en una conexion base de tatos
@@ -65,7 +61,7 @@ public class CreateDB {
 		String linea = br.readLine();
 
 		// preparar sentencia
-		Statement sente = c.createStatement();
+		Statement sente = conn.createStatement();
 
 		String insert = "";
 		while (linea != null) {
@@ -82,12 +78,39 @@ public class CreateDB {
 
 		br.close();
 		sente.close();
-		c.close();
+		conn.close();
 
 	}
 
 	public void cerrarConn() throws SQLException {
-		c.close();
+		conn.close();
+	}
+
+	/**
+	 * Return if the table already exist in the database
+	 * 
+	 * @param tableName
+	 * @return
+	 * @throws SQLException
+	 */
+
+	public boolean tablaExists(String tableName) throws SQLException {
+		ResultSet rs = conn.getMetaData().getTables(null, null, tableName, null);
+		if (rs.next()) {
+			System.out.println("Table " + tableName + " already exists");
+			return true;
+		} else {
+			System.out.println("Table " + tableName + " does not exist");
+			return false;
+		}
+	}
+
+	public void dropTable(String nomTabla) throws SQLException {
+		Statement sent = conn.createStatement();
+		String sql = "DROP TABLE " + nomTabla;
+		sent.executeUpdate(sql);
+		System.out.println(nomTabla + "tabla eliminada. ");
+		sent.close();
 	}
 
 }

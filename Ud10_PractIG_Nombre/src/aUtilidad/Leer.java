@@ -17,14 +17,14 @@ public class Leer {
 		String valor;
 		int num = 0;
 		Scanner teclado = new Scanner(System.in);
-
 		System.out.print(str);
 
 		do {
 			valor = teclado.nextLine();
 			if (esNum(valor))
 				num =Integer.parseInt(valor);
-			System.err.println("Error. Intro entero.");
+			else
+				System.err.println("Error. Intro entero.");
 		} while (esNum(valor) == false);
 		return num;
 

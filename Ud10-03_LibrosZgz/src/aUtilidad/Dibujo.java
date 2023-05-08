@@ -1,5 +1,7 @@
 package aUtilidad;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 public class Dibujo {
@@ -83,11 +85,18 @@ public class Dibujo {
 	 * @param vector int o castear
 	 */
 
-	public static void pintarVector(int[] vector) {
+	public static void pintarVector(String[] vector) {
 		for (int i = 0; i < vector.length; i++) {
 			System.out.println(vector[i]);
 		}
 
 	}
-
+	public static <E> void pintarLista(List<E> list) {
+		for (E e : list) {
+			System.out.print(list.indexOf(e) + " - ");
+			System.out.println(e);
+		}
+	}
+	
+	
 }

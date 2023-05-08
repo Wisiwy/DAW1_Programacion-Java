@@ -60,7 +60,7 @@ public class ManejaDB {
 		System.out.println();
 	}
 
-	public static void SelectAll(String tabla) {
+	public static void selectTabla(String tabla) {
 		String cab = "";
 		try {
 			Statement sentencia = conexion.createStatement();
