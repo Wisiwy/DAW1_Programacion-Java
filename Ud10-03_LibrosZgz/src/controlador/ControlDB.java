@@ -39,20 +39,14 @@ public class ControlDB {
 
 		while (linea != null) {
 			if (linea.matches("^\\d.*")) { // ^ siginifica principio strin \d numero
-
 				//creamos una lista de 12 de tamaño con el array del split
-				//y setemos nulos si fuera necesario
-				String[] strArray = linea.split(";");
+				//y setemos nulos si fuera necesario 
+				String[] strArray = linea.replace('*', '0').replace('?', '0').replace(' ', '0').split(";");
 				List<String> strList = new ArrayList<String>();
-				
 				strList.addAll(Arrays.asList(strArray));
-				System.out.println(strList.size() + " Original longitud list");
 				if(strList.size()<12) {
 					for (int i = strList.size(); i < 12; i++) {
-						//PORQUE COÑO NO ME PONE EL INDICE DONDE YO QUIERO NO ME PASA DEL TAMAÑO AL PONERLO 
 						strList.add("null");
-//						strList.add(I,"");
-//						indice++;
 					}
 				}
 				System.out.println(strList.size() + " longitud list");
@@ -60,7 +54,8 @@ public class ControlDB {
 				System.out.println();
 				
 				//creamos nuevo libro a partir de la lista e insertamos en la BD
-//				insertLibro(newLibro(strList));
+				insertLibro(newLibro(strList));
+				
 				
 			}
 			linea = br.readLine();
@@ -71,18 +66,33 @@ public class ControlDB {
 
 		// mirar para como dejo null si no hay nada entre los puntos y comas
 	}
+	
+	/**
+	 * 
+	 * @param strList con los datos sacados de CSV
+	 * @return objeto libro
+	 */
 
 	private Libro newLibro(List<String> strList) {
 		Libro l = new Libro();
 		l.setNum(Integer.parseInt(strList.get(0)));
 		l.setTitulo(strList.get(1));
 		l.setAutor(strList.get(2));
+		
 		l.setAnyo(Integer.parseInt(strList.get(3)));
 		l.setTematica(strList.get(4));
 		l.setUbicacion(strList.get(5));
 		l.setEditorial(strList.get(6));
 		l.setIsbn(strList.get(7));
+		try {
 		l.setPaginas(Integer.parseInt(strList.get(8)));
+		}catch(NumberFormatException e){
+			if(strList.get(8)=="")
+				l.setPaginas(0);
+			else
+				System.err.println("Error de formato en id " + strList.get(0));
+		}
+		
 		l.setEdad(strList.get(9));
 		l.setObservaciones(strList.get(10));
 		l.setFechaAdquisicion(strList.get(10));

@@ -1,0 +1,12 @@
+1::Lewis Hamilton::Mercedes F1::W11::Monza::2020::264,363 km/h
+2::Kimi Raikkonen::Ferrari::SF71H::Monza::2018::263,588 km/h
+3::Charles Leclerc::Ferrari::SF90::Monza::2019::262,963 km/h
+4::Rubens Barrichello::Ferrari::F2004::Monza::2004::260,395 km/h
+5::Juan Pablo Montoya::Williams-BMW::FW24::Monza::2002::259,828 km/h
+6::Keke Rosberg::Williams::FW10 Honda::Gran Bretaña::1985::259,005 km/h
+7::Michael Schumacher::Ferrari::F2003-GA::Monza::2003::257,584 km/h
+8::Ayrton Senna::McLaren::MP4/6::Monza::1991::257,416 km/h
+9::Juan Pablo Montoya::McLaren Mercedes::MP4/20::Monza::2005::257,295 km/h
+10::Alain Prost::Williams::FW15C::Monza::1993::257,209 km/h
+11::Lewis Hamilton::Mercedes AMG F1::W07::Monza::2016::257,038 km/h
+12::Nelson Piquet::Williams-Honda::FW11B::Austria::1987::256,622 km/h

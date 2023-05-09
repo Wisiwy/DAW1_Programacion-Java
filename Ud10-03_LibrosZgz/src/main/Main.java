@@ -58,6 +58,7 @@ public class Main {
 //----------------------------------------------------------------------------
 			//leer CSV 
 				control.cargarExcelCsv(new File ("LibrosZaragoza2.csv"));
+				control.selectTabla("libro");
 				
 				
 				
