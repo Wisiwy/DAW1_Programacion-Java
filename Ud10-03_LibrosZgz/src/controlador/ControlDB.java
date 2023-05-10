@@ -41,14 +41,20 @@ public class ControlDB {
 			if (linea.matches("^\\d.*")) { // ^ siginifica principio strin \d numero
 				//creamos una lista de 12 de tamaño con el array del split
 				//y setemos nulos si fuera necesario 
-				String[] strArray = linea.replace('*', '0').replace('?', '0').replace(' ', '0').split(";");
+				String[] strArray = linea.split(";");
 				List<String> strList = new ArrayList<String>();
 				strList.addAll(Arrays.asList(strArray));
 				if(strList.size()<12) {
 					for (int i = strList.size(); i < 12; i++) {
-						strList.add("null");
+						if(i==8)
+							strList.add(8,"0");
+						else
+							strList.add(" ");
 					}
 				}
+				//resueltve problemas con paginas
+				strList.get(8).replace('*', '0');
+				strList.get(8).replace('?', '0');
 				System.out.println(strList.size() + " longitud list");
 				Dibujo.pintarLista(strList);
 				System.out.println();
@@ -89,8 +95,10 @@ public class ControlDB {
 		}catch(NumberFormatException e){
 			if(strList.get(8)=="")
 				l.setPaginas(0);
-			else
+			else {
 				System.err.println("Error de formato en id " + strList.get(0));
+				l.setPaginas(0);
+			}
 		}
 		
 		l.setEdad(strList.get(9));

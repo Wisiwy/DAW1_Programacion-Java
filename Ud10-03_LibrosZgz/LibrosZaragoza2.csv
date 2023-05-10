@@ -340,9 +340,9 @@ Num;Título original;Autor;Año;Tema;Ubicación;Editor;ISBN;Páginas;A partir de
 338;Tristán e Isolda;Bédier, Joseph;1900;Clásicos, Mitos y leyendas;David Hab - Cama 1;Círculo de lectores;8422620197, 9788422620198;217;;;;;;;;;
 339;Los tres mosqueteros y veinte años después ;Dumas, Alejandro;1845;Clásicos, Acción y aventura;David Hab - Cama 1;Edhasa Literaria;8435010163, 9788435010160;1312;;;;;;;;;
 340;Los tres mosqueteros;Dumas, Alexandre;1844;Clásicos, Acción y aventura;David Hab - Cama 1;edebé;8423648850, 9788423648856;672;;;;;;;;;
-341;Diccionarios;*Varios;2000;Diccionarios;David Hab - Stant 1;*Varios;;;;;;;;;;;
+341;Diccionarios;*Varios;2000;Diccionarios;David Hab - Stant 1;*Varios;;0;;;;;;;;;
 342;Enciclopedias;*Varios;2000;Enciclopedias;David Hab - Stant 1;*Varios;;;;;;;;;;;
-343;Larroesse Diccionario Práctico;*Varios;1995;Diccionarios, Lengua;David Hab - Stant 1;Larousse;9788480160605;*;;;;;;;;;
+343;Larroesse Diccionario Práctico;*Varios;1995;Diccionarios, Lengua;David Hab - Stant 1;Larousse;9788480160605;0;;;;;;;;;
 344;La ley de Murphy;Bloch, Arthur ;1990;Humor;Raúl Hab - Pc. Stant ;Temas de hoy;9788478801589;256;;;;;;;;;
 345;Dos cuentos maravillosos;Martín Gaite, Carmen ;1983;Cuentos adultos;Raúl Hab - Camas;Círculo de lectores;8422679817;156;;;;;;;;;
 346;Un Naúfrago en la sopa;De Laiglesio, Álvaro;1947;Narrativa, Humor;Comedor - Mid 3;Temas de hoy;8431474002320;0;;;;;;;;;
@@ -427,7 +427,7 @@ Num;Título original;Autor;Año;Tema;Ubicación;Editor;ISBN;Páginas;A partir de
 425;Los tigres de Malasia;Salgari, Emilio;2003;Acción y aventura, Juvenil;Raúl Hab - Vent.;Rueda;8484471934, 9788484471936;200;10 años;;;;;;;;
 426;Sandokan;Salgari, Emilio;2003;Acción y aventura, Juvenil;Raúl Hab - Vent.;Rueda;8484471942, 9788484471943;240;10 años;;;;;;;;
 427;La perla del rio rojo;Salgari, Emilio;2003;Acción y aventura, Juvenil;Raúl Hab - Vent.;Rueda;8484471977, 9788484471974;200;10 años;;;;;;;;
-428;Lobezno: El viejo Logan;"Mark Millar; Steve McNiven";2009;Cómics;Raúl Hab - Pc. Stant ;Panini Comics;9788490249824, 9788490243824;191;12 años;;;;;;;;
+428;Lobezno: El viejo Logan;"Mark Millar, Steve McNiven";2009;Cómics;Raúl Hab - Pc. Stant ;Panini Comics;9788490249824, 9788490243824;191;12 años;;;;;;;;
 429;La subasta del lote 49;Thomas Pynchon;1965;Ficción literaria. Posmoderna;Raúl Hab - Pc. Stant ;TusQuets editores;9788472238299;184;18 años;;;;;;;;
 430;Carbono modificado;Richard Morgan;2002;Ciencia Ficción;Raúl Hab - Pc. Stant ;Gigamesh;9788416035564;184;18 años;;;;;;;;
 431;Multiple Intelligences;Mindy Kornhaber;2004;Educación;Raúl Hab - Camas;Pearson;205342590;218;18 años;;;;;;;;
@@ -453,7 +453,7 @@ Num;Título original;Autor;Año;Tema;Ubicación;Editor;ISBN;Páginas;A partir de
 451;Heroes;Stephen Fry;2018;Mitología;Raúl Hab - Pc. Stant;Anagrama ;9788433964748;494;13 años;Historias de los Heroes griegos, contadas de manera entretenida. ;24/12/2022;;;;;;
 452;Las aventuras de Ulises;Rosemary Sutcliff;1995;Mitología;Raúl Hab - Pc. Stant;Vicens Vives;9788431644710;170;11 años;Ilustrado por Alan Lee. La Odisea contada e ilustrada. Regalado por Jordi;14/01/2023;;;;;;
 453;La historia Interminabe;Ende, Michael;1979;Fantasía;Raúl Hab - Pc. Stant;Circulo de lectores;8422614685;400;10 años;Comprada 2 mano Cinegia Libreria. ;10/12/2022;;;;;;
-454;Los Secretos de la Felicidad;Serrano, Sebastian;;Autoayuda?;Raúl Hab - Pc. Stant;Circulo de lectores;9788467229608;136;20 años;Regalado por Coro. Liberar un libro costumbre. ;06/01/2023;;;;;;
+454;Los Secretos de la Felicidad;Serrano, Sebastian;2007;Autoayuda?;Raúl Hab - Pc. Stant;Circulo de lectores;9788467229608;136;20 años;Regalado por Coro. Liberar un libro costumbre. ;06/01/2023;;;;;;
 455;El misterio de la cripta embrujada;Mendoza, Eduardo;1979;Humor;Raúl Hab - Pc. Stant;Seix Barral;8432230073;188;18años;Jordi recomendacion. Autor sin noticias de Gurb;09/02/2023;;;;;;
 456;Gotham a luz de gas;Brian augustyn, Mike Mignola;1989;Cómics;Raúl Hab - Pc. Stant;Salvat;978844715882//97884716109;117;11 años;Regalo Jordi. Colleccion Universos DC;09/02/2023;;;;;;
 457;Paradise Alley;Sylvester  Stallone;1978;Narrativa;Raúl Hab - Pc. Stant;Circulo de lectores;84-226-1021-3;186;15 años;Bizarrada. Stallone escritor. Parece precuela rocky;20/03/23;;;;;;
