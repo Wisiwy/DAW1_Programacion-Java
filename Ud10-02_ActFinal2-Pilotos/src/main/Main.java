@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import controlador.ControlDB;
 import controlador.CreateDB;
+import vista.MainWin;
 
 public class Main {
 
@@ -32,10 +33,8 @@ public class Main {
 				creaDB.readSQL(fSql);
 				creaDB.closeConn();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -45,15 +44,16 @@ public class Main {
 				Connection conn = DriverManager.getConnection("jdbc:sqlite:" + fDB.getPath());
 				ControlDB control = new ControlDB(conn);
 				control.insertDataTxt(fTxt);
-				control.selectTabla("puntua");
-				control.selectTabla("pilotos");
-				control.selectTabla("cirucito");
+				control.verTabla("puntua");
+				control.verTabla("pilotos");
+				control.verTabla("circuitos");
+				
+				MainWin ventana = new MainWin(control);
+				ventana.setVisible(true);
 			
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 

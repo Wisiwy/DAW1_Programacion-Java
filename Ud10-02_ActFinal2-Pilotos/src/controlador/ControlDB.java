@@ -11,6 +11,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Vector;
+
+import javax.swing.table.DefaultTableModel;
 
 import aUtilidad.Dibujo;
 
@@ -26,7 +29,7 @@ public class ControlDB {
 		List<String> lStr = Files.readAllLines(fTxt.toPath(), StandardCharsets.ISO_8859_1);
 		for (String string : lStr) {
 //			System.out.println(string);
-			String[] arrayStr = string.split("::|;;|:;");
+			String[] arrayStr = string.split("::|;;|:;|;:");
 			if (arrayStr.length == 2) {
 //				 System.out.println("circuito ");
 //				Dibujo.pintarVector(arrayStr);
@@ -117,7 +120,7 @@ public class ControlDB {
 		ps.close();
 	}
 
-	public void selectTabla(String tabla) {
+	public void verTabla(String tabla) {
 
 		String cab = "";
 		try {
@@ -180,5 +183,44 @@ public class ControlDB {
 		return 0;
 	}
 
+	public ResultSet selectTableRS (String tableName) throws SQLException {
+		
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName);
+		return  rs ;
+	}
+	/**
+	 * <b>Create a table model</b> from a ResultSet with a dataBase Query select. 
+	 * @param rs with the data of the table selected
+	 * @return DefatultTableModel
+	 * @throws SQLException
+	 */
+	
+	public static DefaultTableModel buildTableModel(ResultSet rs)
+	        throws SQLException {
+
+	    ResultSetMetaData metaData = rs.getMetaData();
+
+	    // names of columns
+	    Vector<String> columnNames = new Vector<String>();
+	    int columnCount = metaData.getColumnCount();
+	    for (int column = 1; column <= columnCount; column++) {
+	        columnNames.add(metaData.getColumnName(column));
+	    }
+
+	    // data of the table
+	    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+	    while (rs.next()) {
+	        Vector<Object> vector = new Vector<Object>();
+	        for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+	            vector.add(rs.getObject(columnIndex));
+	        }
+	        data.add(vector);
+	    }
+
+	    return new DefaultTableModel(data, columnNames);
+
+	}
+	
 	
 }
