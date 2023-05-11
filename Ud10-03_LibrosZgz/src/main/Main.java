@@ -14,10 +14,11 @@ import aUtilidad.Leer;
 import controlador.ControlDB;
 import controlador.CreateDB;
 import modelo.Libro;
+import vista.VenPrincipal;
 
 public class Main {
 	public static void main(String[] args) {
-//----------------------------------------------------------------------------
+////----------------------------------------------------------------------------
 		// crear conexion
 		try {
 			File f = new File("librosZgz.db");
@@ -27,7 +28,7 @@ public class Main {
 			Connection conn = DriverManager.getConnection("jdbc:sqlite:" + f.getAbsolutePath());
 			System.out.println("Conexion establecida!!");
 
-//----------------------------------------------------------------------------
+////----------------------------------------------------------------------------
 			// creamos DB y su tabla libro
 			CreateDB create = new CreateDB(conn);
 			// tabla
@@ -38,33 +39,38 @@ public class Main {
 			System.out.println("Tabla" + nombreTabla + "creada.");
 			System.out.println();
 			
-//----------------------------------------------------------------------------
-			// manejaDB para meter un ejemplo de libro
+////----------------------------------------------------------------------------
+//			// manejaDB para meter un ejemplo de libro
 			ControlDB control = new ControlDB(conn);
+//
+////				// TEST : PROBAR CON UNA CLASE LIBRO
+////				Libro libroAux = new Libro(12, "titulo", "autortest", 1991, "estudios", "biblioteca", "editorialtest",
+////						"isbn 1231", 345, "a apartir de 12 anyos", "biblioteca guay", "12/12/12");
+////				//insertar libro
+////				control.insertLibro(libroAux);
+////				control.selectTabla("libros");
+////				//update libro
+////				control.updateTabla(12, nombreTabla, "autor");	
+////				control.selectTabla("libros");
+////				//borrar libro
+////				control.borrarLibro(12);
+////				control.selectTabla("libros");
+//			
+////----------------------------------------------------------------------------
+//			//leer CSV 
+//				control.cargarExcelCsv(new File ("LibrosZaragoza2.csv"));
+//				control.selectTabla("libros");
+//				conn.close();
+//				control.cerrarConn();
+				
+			//lanzar Windows Builder
+				try {
+					VenPrincipal frame = new VenPrincipal(control);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-//				// TEST : PROBAR CON UNA CLASE LIBRO
-//				Libro libroAux = new Libro(12, "titulo", "autortest", 1991, "estudios", "biblioteca", "editorialtest",
-//						"isbn 1231", 345, "a apartir de 12 anyos", "biblioteca guay", "12/12/12");
-//				//insertar libro
-//				control.insertLibro(libroAux);
-//				control.selectTabla("libros");
-//				//update libro
-//				control.updateTabla(12, nombreTabla, "autor");	
-//				control.selectTabla("libros");
-//				//borrar libro
-//				control.borrarLibro(12);
-//				control.selectTabla("libros");
-			
-//----------------------------------------------------------------------------
-			//leer CSV 
-				control.cargarExcelCsv(new File ("LibrosZaragoza2.csv"));
-				control.selectTabla("libros");
-				
-				
-				
-			
-
-			control.cerrarConn();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -77,10 +83,7 @@ public class Main {
 			e.printStackTrace();
 		}
 
-		File fCsv = new File("LibrosZaragoza.csv");
-
-		// llamar a la vista principal
-	}
+}	
 
 	private static Libro creaLibro() {
 		Libro aux = new Libro();

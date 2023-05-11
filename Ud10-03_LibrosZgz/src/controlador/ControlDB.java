@@ -12,6 +12,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Vector;
+
+import javax.swing.table.DefaultTableModel;
 
 import aUtilidad.Dibujo;
 import aUtilidad.Ficheros;
@@ -20,15 +23,49 @@ import modelo.Libro;
 
 public class ControlDB {
 
-	private Connection c;
+	private Connection conn;
 
 	public ControlDB(Connection c) {
-		this.c = c;
+		this.conn = c;
 	}
 
 	public void cerrarConn() throws SQLException {
-		c.close();
+		conn.close();
 	}
+	
+	public DefaultTableModel buildTableModel(ResultSet rs)
+	        throws SQLException {
+
+	    ResultSetMetaData metaData = rs.getMetaData();
+
+	    // names of columns
+	    Vector<String> columnNames = new Vector<String>();
+	    int columnCount = metaData.getColumnCount();
+	    for (int column = 1; column <= columnCount; column++) {
+	        columnNames.add(metaData.getColumnName(column));
+	    }
+
+	    // data of the table
+	    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+	    while (rs.next()) {
+	        Vector<Object> vector = new Vector<Object>();
+	        for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+	            vector.add(rs.getObject(columnIndex));
+	        }
+	        data.add(vector);
+	    }
+
+	    return new DefaultTableModel(data, columnNames);
+
+	}
+	public ResultSet selectTableRS (String tableName) throws SQLException {
+		
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName);
+		return  rs ;
+	}
+	
+	
 	
 	public void cargarExcelCsv(File fCsv) throws IOException, SQLException {
 		// ignorar las 3 primeras lineas
@@ -110,7 +147,7 @@ public class ControlDB {
 	public void insertLibro(Libro l) throws SQLException {
 
 		String insert = prepareInsert("libros", l);
-		PreparedStatement ps = c.prepareStatement(insert);
+		PreparedStatement ps = conn.prepareStatement(insert);
 		System.out.println(insert);
 
 		ps.setInt(1, l.getNum());
@@ -163,7 +200,7 @@ public class ControlDB {
 		// ATENCION posible enrror en no poner al final del detete ;
 		String delete = "DELETE FROM libros WHERE id = ?";
 		
-		PreparedStatement ps = c.prepareStatement(delete);
+		PreparedStatement ps = conn.prepareStatement(delete);
 		ps.setInt(1, idLibro);
 		ps.executeUpdate();
 		System.out.println("Libro borrado.");
@@ -179,7 +216,7 @@ public class ControlDB {
         String sql = "UPDATE " + nomTabla + " SET " + nomColumn + " = '" + nuevoDato + "' WHERE id = " + id;
 		
 		// ejecutar sentencia
-        Statement senten = c.createStatement();
+        Statement senten = conn.createStatement();
 		int row = senten.executeUpdate(sql);
 		System.out.println(nomColumn +"de fila nº "+ row+ "modificado correctamente. ");
 		senten.close();
@@ -189,7 +226,7 @@ public class ControlDB {
 	}
 
 	private String tipoDato(String nomColumn, String nomTabla) throws SQLException {
-		Statement senten = c.createStatement();
+		Statement senten = conn.createStatement();
 		ResultSet rs = senten.executeQuery("SELECT " + nomColumn + " FROM" + nomTabla + ";");
 		System.out.println("Tipo de dato " + (rs.getMetaData().getColumnTypeName(0)));
 		return rs.getMetaData().getColumnTypeName(0);
@@ -200,14 +237,12 @@ public class ControlDB {
 	 * Seleccona y muestra por consola la tabla cuyo nombre pasemos. 
 	 * @param nombre de la tabla
 	 */
-	public void selectTabla(String tabla) {
+	public void selectTabla(ResultSet rs) {
 
 		String cab = "";
 		try {
-			Statement sentencia = c.createStatement();
-			ResultSet res = sentencia.executeQuery("SELECT * FROM " + tabla);
-			// recogemos metadatos
-			ResultSetMetaData rsmd = res.getMetaData();
+			// recogemos metadatos			
+			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnsNumber = rsmd.getColumnCount();
 
 			// dibuja cabecera
@@ -220,15 +255,14 @@ public class ControlDB {
 			System.out.println("");
 
 			// dibuja datos
-			while (res.next()) {
+			while (rs.next()) {
 				for (int i = 1; i <= columnsNumber; i++) {
-					String columnValue = res.getString(i);
+					String columnValue = rs.getString(i);
 					System.out.printf("| %-10s", columnValue);
 
 				}
 				System.out.println();
 			}
-			sentencia.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
