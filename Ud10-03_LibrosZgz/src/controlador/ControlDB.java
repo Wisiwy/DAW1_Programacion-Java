@@ -144,6 +144,11 @@ public class ControlDB {
 		return l;
 	}
 
+	
+	public String DBname() throws SQLException {
+        return conn.getMetaData().getURL().replace("jdbc:sqlite:", "");
+	}
+	
 	public void insertLibro(Libro l) throws SQLException {
 
 		String insert = prepareInsert("libros", l);

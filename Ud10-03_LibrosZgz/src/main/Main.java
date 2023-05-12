@@ -58,10 +58,8 @@ public class Main {
 //			
 ////----------------------------------------------------------------------------
 //			//leer CSV 
-//				control.cargarExcelCsv(new File ("LibrosZaragoza2.csv"));
-//				control.selectTabla("libros");
-//				conn.close();
-//				control.cerrarConn();
+				control.cargarExcelCsv(new File ("LibrosZaragoza2.csv"));
+				control.selectTabla(control.selectTableRS("libros"));
 				
 			//lanzar Windows Builder
 				try {

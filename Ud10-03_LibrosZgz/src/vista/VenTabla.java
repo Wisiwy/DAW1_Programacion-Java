@@ -26,8 +26,9 @@ import java.awt.event.ActionEvent;
 public class VenTabla extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
 	private JButton btnVerTablas;
+	private JLabel lblCabePath_1;
+	private JTable tableVisualizacion;
 	/**
 	 * Create the frame.
 	 * @param conn 
@@ -43,34 +44,41 @@ public class VenTabla extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblCabTit = new JLabel("Biblioteca Casa ZGZ V0.1");
+		lblCabTit.setBounds(22, 0, 234, 55);
 		lblCabTit.setHorizontalAlignment(SwingConstants.LEFT);
 		lblCabTit.setForeground(new Color(102, 0, 0));
 		lblCabTit.setFont(new Font("Caladea", Font.BOLD | Font.ITALIC, 24));
-		lblCabTit.setBounds(22, 0, 234, 55);
 		contentPane.add(lblCabTit);
 		
-		table = new JTable();
-		contentPane.add(new JScrollPane(table), BorderLayout.CENTER);
-
-		contentPane.add(table);
-		table.setBounds(0, 0, -3, 0);
-		
 		JLabel lblCabePath = null;
-		lblCabePath = new JLabel("Bd:<br> " +control.toString());
-		lblCabePath.setHorizontalAlignment(SwingConstants.LEFT);
-		lblCabePath.setForeground(new Color(102, 0, 0));
-		lblCabePath.setFont(new Font("Caladea", Font.BOLD | Font.ITALIC, 10));
-		lblCabePath.setBounds(700, 0, 234, 55);
-		contentPane.add(lblCabePath);
+		
+		JScrollPane scrollVisualizacion = new JScrollPane();
+		scrollVisualizacion.setBounds(22, 49, 1050, 431);
+		contentPane.add(scrollVisualizacion);
+		
+		tableVisualizacion = new JTable();
+		scrollVisualizacion.setViewportView(tableVisualizacion);
+		try {
+			lblCabePath_1 = new JLabel("Bd:<br> " +control.DBname());
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		lblCabePath_1.setBounds(700, 0, 372, 55);
+		lblCabePath_1.setHorizontalAlignment(SwingConstants.LEFT);
+		lblCabePath_1.setForeground(new Color(102, 0, 0));
+		lblCabePath_1.setFont(new Font("Caladea", Font.BOLD | Font.ITALIC, 10));
+		contentPane.add(lblCabePath_1);
 		
 		btnVerTablas = new JButton("Ver Libros");
+		btnVerTablas.setBounds(43, 493, 150, 46);
 		btnVerTablas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ResultSet rs;
 				try {
 					rs = control.selectTableRS("libros");
 					
-					table.setModel(control.buildTableModel(rs));
+					tableVisualizacion.setModel(control.buildTableModel(rs));
 					System.out.println("entra rs despues de seteo");
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -81,7 +89,14 @@ public class VenTabla extends JFrame {
 				
 			}
 		});
-		btnVerTablas.setBounds(43, 493, 150, 46);
 		contentPane.add(btnVerTablas);
+		
+		JButton btnNuevoLib = new JButton("Nuevo Libro");
+		btnNuevoLib.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNuevoLib.setBounds(244, 492, 150, 46);
+		contentPane.add(btnNuevoLib);
 	}
 }
