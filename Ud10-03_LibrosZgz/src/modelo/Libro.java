@@ -3,6 +3,7 @@ package modelo;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class Libro {
 	public Integer num;
@@ -21,8 +22,48 @@ public class Libro {
 	public Libro() {
 	};
 
+	public Libro(List<String> strList) {
+		this.setNum(Integer.parseInt(strList.get(0)));
+		this.setTitulo(strList.get(1));
+		this.setAutor(strList.get(2));
+
+		
+		//controlamo que el parseo se haga con algo
+		this.setAnyo(Integer.parseInt(strList.get(3)));
+		try {
+			this.setAnyo(Integer.parseInt(strList.get(3)));
+		} catch (NumberFormatException e) {
+			if (strList.get(8) == "")
+				this.setAnyo(0);
+			else {
+				System.err.println("Error de formato en id " + strList.get(0));
+				this.setAnyo(0);
+			}
+		}
+
+		this.setTematica(strList.get(4));
+		this.setUbicacion(strList.get(5));
+		this.setEditorial(strList.get(6));
+		this.setIsbn(strList.get(7));
+		try {
+			this.setPaginas(Integer.parseInt(strList.get(8)));
+		} catch (NumberFormatException e) {
+			if (strList.get(8) == "")
+				this.setPaginas(0);
+			else {
+				System.err.println("Error de formato en id " + strList.get(0));
+				this.setPaginas(0);
+			}
+		}
+
+		this.setEdad(strList.get(9));
+		this.setObservaciones(strList.get(10));
+		this.setFechaAdquisicion(strList.get(10));
+	}
+
 	public Libro(Integer num, String titulo, String autor, Integer año, String tematica, String ubicacion,
-			String editorial, String iSBN, Integer paginas, String edad, String observaciones, String fechaAdquisicion) throws ParseException {
+			String editorial, String iSBN, Integer paginas, String edad, String observaciones, String fechaAdquisicion)
+			throws ParseException {
 		super();
 		this.num = num;
 		this.titulo = titulo;
@@ -37,15 +78,12 @@ public class Libro {
 		this.observaciones = observaciones;
 		this.fechaAdquisicion = fechaAdquisicion;
 	}
-	
 
 	@Override
 	public String toString() {
-		return String.format("Id:%d.\t %s \n Autor: %s "
-				+ "\n Editorial: %s \t Año: %d"
-				+ "\n ISBN: %ss"
-				+ "\n Tematica: %s"
-				+ "\n Ubicacion: %s",num, titulo, autor, anyo,editorial, isbn,tematica,ubicacion);
+		return String.format("Id:%d.\t %s \n Autor: %s " + "\n Editorial: %s \t Año: %d" + "\n ISBN: %ss"
+				+ "\n Tematica: %s" + "\n Ubicacion: %s", num, titulo, autor, anyo, editorial, isbn, tematica,
+				ubicacion);
 	}
 
 	public Integer getNum() {
@@ -151,7 +189,5 @@ public class Libro {
 	public void setFechaAdquisicion(String fechaAdquisicion) {
 		this.fechaAdquisicion = fechaAdquisicion;
 	}
-
-	
 
 }

@@ -32,41 +32,57 @@ public class ControlDB {
 	public void cerrarConn() throws SQLException {
 		conn.close();
 	}
-	
-	public DefaultTableModel buildTableModel(ResultSet rs)
-	        throws SQLException {
 
-	    ResultSetMetaData metaData = rs.getMetaData();
+	public DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
 
-	    // names of columns
-	    Vector<String> columnNames = new Vector<String>();
-	    int columnCount = metaData.getColumnCount();
-	    for (int column = 1; column <= columnCount; column++) {
-	        columnNames.add(metaData.getColumnName(column));
-	    }
+		ResultSetMetaData metaData = rs.getMetaData();
 
-	    // data of the table
-	    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-	    while (rs.next()) {
-	        Vector<Object> vector = new Vector<Object>();
-	        for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
-	            vector.add(rs.getObject(columnIndex));
-	        }
-	        data.add(vector);
-	    }
+		// names of columns
+		Vector<String> columnNames = new Vector<String>();
+		int columnCount = metaData.getColumnCount();
+		for (int column = 1; column <= columnCount; column++) {
+			columnNames.add(metaData.getColumnName(column));
+		}
 
-	    return new DefaultTableModel(data, columnNames);
+		// data of the table
+		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		while (rs.next()) {
+			Vector<Object> vector = new Vector<Object>();
+			for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+				vector.add(rs.getObject(columnIndex));
+			}
+			data.add(vector);
+		}
+
+		return new DefaultTableModel(data, columnNames);
 
 	}
-	public ResultSet selectTableRS (String tableName) throws SQLException {
-		
+
+	public ResultSet selectTableRS(String tableName) throws SQLException {
+
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName);
-		return  rs ;
+		return rs;
 	}
-	
-	
-	
+
+	/**
+	 * Devuelve el Result Set de la consulta Xquery. Podría sustituir a select table
+	 * pero no quiero cambiar elcodigo XD<br>
+	 * Ordenado alfabeticamente.
+	 * 
+	 * @param columName
+	 * @param tableName
+	 * @return ResultSet con consulta.
+	 * @throws SQLException
+	 */
+	public ResultSet selectColumnTable(String columName, String tableName) throws SQLException {
+
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt
+				.executeQuery("SELECT DISTINCT " + columName + " FROM " + tableName + " ORDER BY " + columName);
+		return rs;
+	}
+
 	public void cargarExcelCsv(File fCsv) throws IOException, SQLException {
 		// ignorar las 3 primeras lineas
 		System.out.println("CARGAR FICHERO CSV");
@@ -76,30 +92,29 @@ public class ControlDB {
 
 		while (linea != null) {
 			if (linea.matches("^\\d.*")) { // ^ siginifica principio strin \d numero
-				//creamos una lista de 12 de tamaño con el array del split
-				//y setemos nulos si fuera necesario 
+				// creamos una lista de 12 de tamaño con el array del split
+				// y setemos nulos si fuera necesario
 				String[] strArray = linea.split(";");
 				List<String> strList = new ArrayList<String>();
 				strList.addAll(Arrays.asList(strArray));
-				if(strList.size()<12) {
+				if (strList.size() < 12) {
 					for (int i = strList.size(); i < 12; i++) {
-						if(i==8)
-							strList.add(8,"0");
+						if (i == 8)
+							strList.add(8, "0");
 						else
 							strList.add(" ");
 					}
 				}
-				//resueltve problemas con paginas
+				// resueltve problemas con paginas
 				strList.get(8).replace('*', '0');
 				strList.get(8).replace('?', '0');
 				System.out.println(strList.size() + " longitud list");
 				Dibujo.pintarLista(strList);
 				System.out.println();
-				
-				//creamos nuevo libro a partir de la lista e insertamos en la BD
+
+				// creamos nuevo libro a partir de la lista e insertamos en la BD
 				insertLibro(newLibro(strList));
-				
-				
+
 			}
 			linea = br.readLine();
 
@@ -109,46 +124,46 @@ public class ControlDB {
 
 		// mirar para como dejo null si no hay nada entre los puntos y comas
 	}
-	
+
 	/**
+	 * NO SIRVE. He creado un constructor en la clase libro igual
 	 * 
 	 * @param strList con los datos sacados de CSV
 	 * @return objeto libro
 	 */
 
-	private Libro newLibro(List<String> strList) {
+	private Libro newLibro(List<String> strList) {//
 		Libro l = new Libro();
 		l.setNum(Integer.parseInt(strList.get(0)));
 		l.setTitulo(strList.get(1));
 		l.setAutor(strList.get(2));
-		
+
 		l.setAnyo(Integer.parseInt(strList.get(3)));
 		l.setTematica(strList.get(4));
 		l.setUbicacion(strList.get(5));
 		l.setEditorial(strList.get(6));
 		l.setIsbn(strList.get(7));
 		try {
-		l.setPaginas(Integer.parseInt(strList.get(8)));
-		}catch(NumberFormatException e){
-			if(strList.get(8)=="")
+			l.setPaginas(Integer.parseInt(strList.get(8)));
+		} catch (NumberFormatException e) {
+			if (strList.get(8) == "")
 				l.setPaginas(0);
 			else {
 				System.err.println("Error de formato en id " + strList.get(0));
 				l.setPaginas(0);
 			}
 		}
-		
+
 		l.setEdad(strList.get(9));
 		l.setObservaciones(strList.get(10));
 		l.setFechaAdquisicion(strList.get(10));
 		return l;
 	}
 
-	
 	public String DBname() throws SQLException {
-        return conn.getMetaData().getURL().replace("jdbc:sqlite:", "");
+		return conn.getMetaData().getURL().replace("jdbc:sqlite:", "");
 	}
-	
+
 	public void insertLibro(Libro l) throws SQLException {
 
 		String insert = prepareInsert("libros", l);
@@ -171,7 +186,6 @@ public class ControlDB {
 		ps.executeUpdate();
 		ps.close();
 		System.out.println("Libro insertado");
-		
 
 	}
 
@@ -204,7 +218,7 @@ public class ControlDB {
 	public void borrarLibro(Integer idLibro) throws SQLException {
 		// ATENCION posible enrror en no poner al final del detete ;
 		String delete = "DELETE FROM libros WHERE id = ?";
-		
+
 		PreparedStatement ps = conn.prepareStatement(delete);
 		ps.setInt(1, idLibro);
 		ps.executeUpdate();
@@ -214,16 +228,16 @@ public class ControlDB {
 	}
 
 	public void updateTabla(Integer id, String nomTabla, String nomColumn) throws SQLException {
-		String nuevoDato = Leer.leerString("Intro nuevo " + nomColumn +": ");
+		String nuevoDato = Leer.leerString("Intro nuevo " + nomColumn + ": ");
 //		String dataType = tipoDato(nomColumn, nomTabla);
 //		parsearDato(nuevoDato);
 		// convertir de string al dato que sea necesario
-        String sql = "UPDATE " + nomTabla + " SET " + nomColumn + " = '" + nuevoDato + "' WHERE id = " + id;
-		
+		String sql = "UPDATE " + nomTabla + " SET " + nomColumn + " = '" + nuevoDato + "' WHERE id = " + id;
+
 		// ejecutar sentencia
-        Statement senten = conn.createStatement();
+		Statement senten = conn.createStatement();
 		int row = senten.executeUpdate(sql);
-		System.out.println(nomColumn +"de fila nº "+ row+ "modificado correctamente. ");
+		System.out.println(nomColumn + "de fila nº " + row + "modificado correctamente. ");
 		senten.close();
 
 		// pregunta se puede poner para que la lectura sea de cualquier tipo de datç
@@ -237,16 +251,16 @@ public class ControlDB {
 		return rs.getMetaData().getColumnTypeName(0);
 	}
 
-	
 	/**
-	 * Seleccona y muestra por consola la tabla cuyo nombre pasemos. 
+	 * Seleccona y muestra por consola la tabla cuyo nombre pasemos.
+	 * 
 	 * @param nombre de la tabla
 	 */
 	public void selectTabla(ResultSet rs) {
 
 		String cab = "";
 		try {
-			// recogemos metadatos			
+			// recogemos metadatos
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int columnsNumber = rsmd.getColumnCount();
 
@@ -276,6 +290,23 @@ public class ControlDB {
 		for (int i = 0; i < cab.length(); i++)
 			System.out.print("-");
 		System.out.println();
+	}
+
+	public String selectNextId(String tableName) throws SQLException {
+		Statement stmt = conn.createStatement();
+
+		ResultSet rs = stmt.executeQuery("SELECT MAX(id) FROM " + tableName);
+		Integer maxId = null;
+		if (rs.next()) {
+			maxId = rs.getInt(1);
+
+			System.out.println("El valor máximo de ID es: " + maxId);
+		}
+
+		rs.close();
+		stmt.close();
+
+		return maxId.toString();
 	}
 
 }
