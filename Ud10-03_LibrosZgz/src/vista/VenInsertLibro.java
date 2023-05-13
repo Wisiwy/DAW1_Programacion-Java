@@ -42,7 +42,6 @@ public class VenInsertLibro extends JFrame {
 	private JTextField txtEdad;
 	private JTextField txtObserva;
 	private JTextField txtFechaAdq;
-	private JTextField txtPags;
 	private JComboBox cboxTematica;
 	private JComboBox cboxUbi;
 
@@ -81,16 +80,22 @@ public class VenInsertLibro extends JFrame {
 				strList.add(5, (String) cboxUbi.getSelectedItem());
 				strList.add(6, txtEditorial.getText());
 				strList.add(7, txtIsbn.getText());
-				strList.add(8, txtPags.getText());
+				strList.add(8, txtPag.getText());
 				strList.add(9, txtEdad.getText());
 				strList.add(10, txtObserva.getText());
 				strList.add(11, txtFechaAdq.getText());
 				
 				Dibujo.pintarLista(strList);
 				//controlar que si esta vacio setear espacio en un libro o 0 en numeros
+				
+				
 				//crear Libro
 				try {
-					control.insertLibro(new Libro(strList));
+					Libro libAux = new Libro(strList);
+					control.insertLibro(libAux);
+					VenAcceptLibro venAceptaLib = new VenAcceptLibro(libAux);
+					venAceptaLib.setVisible(true);
+					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -105,9 +110,7 @@ public class VenInsertLibro extends JFrame {
 		btnInsCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				// salir de la ventanta
-
-				// refrescar la base de datos con el nuevo libro
+				setVisible(false);
 			}
 		});
 		btnInsCancel.setBounds(266, 620, 124, 49);
@@ -340,20 +343,5 @@ public class VenInsertLibro extends JFrame {
 		txtFechaAdq.setColumns(10);
 		txtFechaAdq.setBounds(99, 0, 227, 31);
 		panelFechaAdq.add(txtFechaAdq);
-
-		JPanel panelPags = new JPanel();
-		panelPags.setLayout(null);
-		panelPags.setBounds(5, 270, 353, 31);
-		panelFormLibro.add(panelPags);
-
-		JLabel lblPags = new JLabel("Páginas");
-		lblPags.setBounds(12, 8, 70, 15);
-		panelPags.add(lblPags);
-
-		txtPags = new JTextField();
-		txtPags.setToolTipText("8423344711");
-		txtPags.setColumns(10);
-		txtPags.setBounds(99, 0, 227, 31);
-		panelPags.add(txtPags);
 	}
 }

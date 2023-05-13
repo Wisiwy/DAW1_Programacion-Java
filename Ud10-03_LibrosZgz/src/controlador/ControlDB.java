@@ -33,6 +33,20 @@ public class ControlDB {
 		conn.close();
 	}
 
+	/**
+	 * Lo que tu quieras sencillo y para toda la familia
+	 * 
+	 * @param qr Sentencia SQL
+	 * @return
+	 * @throws SQLException
+	 */
+	public ResultSet personalizeQueary(String qr) throws SQLException {
+
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery(qr);
+		return rs;
+	}
+
 	public DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
 
 		ResultSetMetaData metaData = rs.getMetaData();
@@ -302,11 +316,34 @@ public class ControlDB {
 
 			System.out.println("El valor máximo de ID es: " + maxId);
 		}
+		maxId++;
 
 		rs.close();
 		stmt.close();
 
 		return maxId.toString();
+	}
+
+	public String pintaRS(ResultSet rs) {
+		ResultSetMetaData rsmd;
+		String pinta = null;
+		try {
+			rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+
+			while (rs.next()) {
+				for (int i = 1; i <= columnsNumber; i++) {
+					pinta += rsmd.getColumnName(i).toUpperCase() + ": ";
+					pinta += rs.getString(i);
+					pinta += "<br/>";
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return pinta;
 	}
 
 }

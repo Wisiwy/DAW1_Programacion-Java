@@ -30,6 +30,8 @@ public class VenTabla extends JFrame {
 	private JButton btnVerTablas;
 	private JLabel lblCabePath_1;
 	private JTable tableVisualizacion;
+	private JButton btnBorrarLibro;
+	private JPanel panelBtns;
 	/**
 	 * Create the frame.
 	 * @param conn 
@@ -68,9 +70,39 @@ public class VenTabla extends JFrame {
 		lblCabePath_1.setFont(new Font("Caladea", Font.BOLD | Font.ITALIC, 10));
 		contentPane.add(lblCabePath_1);
 		
+		panelBtns = new JPanel();
+		panelBtns.setBounds(43, 493, 539, 46);
+		contentPane.add(panelBtns);
+		panelBtns.setLayout(null);
+		
 		//BOTON VER TABLAS
 		btnVerTablas = new JButton("Ver Libros");
-		btnVerTablas.setBounds(43, 493, 150, 46);
+		btnVerTablas.setBounds(0, 0, 150, 46);
+		panelBtns.add(btnVerTablas);
+		
+		JButton btnNuevoLib = new JButton("Nuevo Libro");
+		btnNuevoLib.setBounds(185, 0, 150, 46);
+		panelBtns.add(btnNuevoLib);
+		
+		btnBorrarLibro = new JButton("Borrar Libro");
+		btnBorrarLibro.setBounds(389, 0, 150, 46);
+		panelBtns.add(btnBorrarLibro);
+		btnBorrarLibro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Integer idLib = tableVisualizacion.getSelectedRow() + 1;
+				System.out.println("Fila selecionada: " + tableVisualizacion.getSelectedRow());
+				VenBorrarLibro borraLib = new VenBorrarLibro(control,idLib);
+				borraLib.setVisible(true);
+				
+				
+			}
+		});
+		btnNuevoLib.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VenInsertLibro frame = new VenInsertLibro(control);
+				frame.setVisible(true);
+			}
+		});
 		btnVerTablas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ResultSet rs;
@@ -88,17 +120,6 @@ public class VenTabla extends JFrame {
 				
 			}
 		});
-		contentPane.add(btnVerTablas);
-		
-		JButton btnNuevoLib = new JButton("Nuevo Libro");
-		btnNuevoLib.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VenInsertLibro frame = new VenInsertLibro(control);
-				frame.setVisible(true);
-			}
-		});
-		btnNuevoLib.setBounds(244, 492, 150, 46);
-		contentPane.add(btnNuevoLib);
 		
 		JScrollPane scrollVisualizacion = new JScrollPane();
 		scrollVisualizacion.setBounds(22, 47, 1035, 433);

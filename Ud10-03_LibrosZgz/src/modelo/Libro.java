@@ -81,8 +81,8 @@ public class Libro {
 
 	@Override
 	public String toString() {
-		return String.format("Id:%d.\t %s \n Autor: %s " + "\n Editorial: %s \t Año: %d" + "\n ISBN: %ss"
-				+ "\n Tematica: %s" + "\n Ubicacion: %s", num, titulo, autor, anyo, editorial, isbn, tematica,
+		return String.format("Id: %d .\t %s \n Autor: %s " + "\n Editorial: %s \t Año: %d" + "\n ISBN: %s"
+				+ "\n Tematica: %s" + "\n Ubicacion: %s", num, titulo, autor,  editorial, anyo, isbn, tematica,
 				ubicacion);
 	}
 
