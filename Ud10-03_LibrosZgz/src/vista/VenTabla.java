@@ -20,11 +20,17 @@ import javax.swing.SwingConstants;
 import javax.swing.JTable;
 import javax.sound.sampled.Control;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollBar;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class VenTabla extends JFrame {
 
@@ -76,7 +82,7 @@ public class VenTabla extends JFrame {
 		contentPane.add(lblCabePath_1);
 
 		panelBtns = new JPanel();
-		panelBtns.setBounds(43, 493, 378, 158);
+		panelBtns.setBounds(41, 511, 378, 158);
 		contentPane.add(panelBtns);
 		panelBtns.setLayout(null);
 
@@ -172,17 +178,17 @@ public class VenTabla extends JFrame {
 
 		txtBuscaAutor = new JTextField();
 		txtBuscaAutor.setColumns(10);
-		txtBuscaAutor.setBounds(262, 37, 194, 31);
+		txtBuscaAutor.setBounds(12, 105, 194, 31);
 		panelBuscador.add(txtBuscaAutor);
 
 		JLabel lblBusAutori = new JLabel("Por autor");
-		lblBusAutori.setBounds(262, 12, 70, 15);
+		lblBusAutori.setBounds(12, 80, 70, 15);
 		panelBuscador.add(lblBusAutori);
 
 		final JLabel lblError = new JLabel("Introduzca titulo o autor a encontrar.");
 		lblError.setVisible(false);
 		lblError.setForeground(new Color(192, 28, 40));
-		lblError.setBounds(178, 157, 278, 15);
+		lblError.setBounds(172, 161, 278, 15);
 		panelBuscador.add(lblError);
 
 		JButton btnBuscarLib = new JButton("Buscar");
@@ -218,6 +224,50 @@ public class VenTabla extends JFrame {
 		});
 		btnBuscarLib.setBounds(12, 148, 142, 41);
 		panelBuscador.add(btnBuscarLib);
+		
+		final JButton btnSaveAsTxt= new JButton("Guardar Txt");
+		btnSaveAsTxt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				File f;
+				try {
+					//elegir el archivo
+					JFileChooser fCho = new JFileChooser();
+					int result = fCho.showSaveDialog(btnSaveAsTxt);
+					if (result == JFileChooser.APPROVE_OPTION) {
+						System.out.println("Archivo selecionado bien");
+						f = fCho.getSelectedFile();	
+						//escribir el fichero con el table mode
+						control.escribirTableModel(tableVisualizacion.getModel(),f);
+						System.out.println("Archivo guardado correctamente");
+					
+					
+					}else if (result == JFileChooser.CANCEL_OPTION)	
+						System.out.println("Guardado cancelado");
+						
+					
+					
+					//comprobar si existe desde la clase Ficheros
+					
+					//escribir el fichero con el table mode
+					
+					
+				
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnSaveAsTxt.setBounds(358, 27, 142, 41);
+		panelBuscador.add(btnSaveAsTxt);
+		
+		JButton btnSaveAsXml = new JButton("Guardar Xml");
+		btnSaveAsXml.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnSaveAsXml.setBounds(358, 95, 142, 41);
+		panelBuscador.add(btnSaveAsXml);
 
 	}
 }

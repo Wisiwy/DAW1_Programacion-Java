@@ -1,7 +1,9 @@
 package controlador;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,10 +17,10 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import aUtilidad.Dibujo;
 import aUtilidad.Ficheros;
-import aUtilidad.Leer;
 import modelo.Libro;
 
 public class ControlDB {
@@ -29,23 +31,32 @@ public class ControlDB {
 		this.conn = c;
 	}
 
-	public void cerrarConn() throws SQLException {
-		conn.close();
+	/**
+	 * Borra libro a partir del id
+	 * 
+	 * @param idLibro
+	 * @throws SQLException
+	 */
+
+	public void borrarLibro(Integer idLibro) throws SQLException {
+		// ATENCION posible enrror en no poner al final del detete ;
+		String delete = "DELETE FROM libros WHERE id = ?";
+
+		PreparedStatement ps = conn.prepareStatement(delete);
+		ps.setInt(1, idLibro);
+		ps.executeUpdate();
+		System.out.println("Libro borrado.");
+		ps.close();
+
 	}
 
 	/**
-	 * Lo que tu quieras sencillo y para toda la familia
+	 * Prepara el Resulet Seta para ser mostrado en un JTable
 	 * 
-	 * @param qr Sentencia SQL
+	 * @param rs
 	 * @return
 	 * @throws SQLException
 	 */
-	public ResultSet personalizeQueary(String qr) throws SQLException {
-
-		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery(qr);
-		return rs;
-	}
 
 	public DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
 
@@ -72,30 +83,14 @@ public class ControlDB {
 
 	}
 
-	public ResultSet selectTableRS(String tableName) throws SQLException {
-
-		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName);
-		return rs;
-	}
-
 	/**
-	 * Devuelve el Result Set de la consulta Xquery. Podría sustituir a select table
-	 * pero no quiero cambiar elcodigo XD<br>
-	 * Ordenado alfabeticamente.
+	 * Prepara un archivo .csv, crea un objeto libro y lo carga en la BD en la tabla
+	 * "libro"
 	 * 
-	 * @param columName
-	 * @param tableName
-	 * @return ResultSet con consulta.
+	 * @param fCsv
+	 * @throws IOException
 	 * @throws SQLException
 	 */
-	public ResultSet selectColumnTable(String columName, String tableName) throws SQLException {
-
-		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt
-				.executeQuery("SELECT DISTINCT " + columName + " FROM " + tableName + " ORDER BY " + columName);
-		return rs;
-	}
 
 	public void cargarExcelCsv(File fCsv) throws IOException, SQLException {
 		// ignorar las 3 primeras lineas
@@ -139,44 +134,26 @@ public class ControlDB {
 		// mirar para como dejo null si no hay nada entre los puntos y comas
 	}
 
-	/**
-	 * NO SIRVE. He creado un constructor en la clase libro igual
-	 * 
-	 * @param strList con los datos sacados de CSV
-	 * @return objeto libro
-	 */
-
-	private Libro newLibro(List<String> strList) {//
-		Libro l = new Libro();
-		l.setNum(Integer.parseInt(strList.get(0)));
-		l.setTitulo(strList.get(1));
-		l.setAutor(strList.get(2));
-
-		l.setAnyo(Integer.parseInt(strList.get(3)));
-		l.setTematica(strList.get(4));
-		l.setUbicacion(strList.get(5));
-		l.setEditorial(strList.get(6));
-		l.setIsbn(strList.get(7));
-		try {
-			l.setPaginas(Integer.parseInt(strList.get(8)));
-		} catch (NumberFormatException e) {
-			if (strList.get(8) == "")
-				l.setPaginas(0);
-			else {
-				System.err.println("Error de formato en id " + strList.get(0));
-				l.setPaginas(0);
-			}
-		}
-
-		l.setEdad(strList.get(9));
-		l.setObservaciones(strList.get(10));
-		l.setFechaAdquisicion(strList.get(10));
-		return l;
+	public void cerrarConn() throws SQLException {
+		conn.close();
 	}
 
+	/**
+	 * Recoge el nombre de la DB p
+	 * 
+	 * @return String con el nombre de la DB
+	 * @throws SQLException
+	 */
 	public String DBname() throws SQLException {
 		return conn.getMetaData().getURL().replace("jdbc:sqlite:", "");
 	}
+
+	/**
+	 * Inserta un objeto libro en la tabla libros
+	 * 
+	 * @param l objeto libro
+	 * @throws SQLException
+	 */
 
 	public void insertLibro(Libro l) throws SQLException {
 
@@ -204,6 +181,84 @@ public class ControlDB {
 	}
 
 	/**
+	 * NO SIRVE. He creado un constructor en la clase libro igual
+	 * 
+	 * @param strList con los datos sacados de CSV
+	 * @return objeto libro
+	 */
+
+	private Libro newLibro(List<String> strList) {
+		Libro l = new Libro();
+		l.setNum(Integer.parseInt(strList.get(0)));
+		l.setTitulo(strList.get(1));
+		l.setAutor(strList.get(2));
+
+		l.setAnyo(Integer.parseInt(strList.get(3)));
+		l.setTematica(strList.get(4));
+		l.setUbicacion(strList.get(5));
+		l.setEditorial(strList.get(6));
+		l.setIsbn(strList.get(7));
+		try {
+			l.setPaginas(Integer.parseInt(strList.get(8)));
+		} catch (NumberFormatException e) {
+			if (strList.get(8) == "")
+				l.setPaginas(0);
+			else {
+				System.err.println("Error de formato en id " + strList.get(0));
+				l.setPaginas(0);
+			}
+		}
+
+		l.setEdad(strList.get(9));
+		l.setObservaciones(strList.get(10));
+		l.setFechaAdquisicion(strList.get(10));
+		return l;
+	}
+
+	/**
+	 * Prepara el statement y eecuta la sentencia pasada por String
+	 * 
+	 * @param qr Sentencia SQL
+	 * @return
+	 * @throws SQLException
+	 */
+	public ResultSet personalizeQueary(String qr) throws SQLException {
+
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery(qr);
+		return rs;
+	}
+
+	/**
+	 * Devuelve un string con elementos HTML (<br/>
+	 * ) para poder hacer lo que se quiera
+	 * 
+	 * @param rs
+	 * @return Strin con saltor br
+	 */
+	public String pintaRS(ResultSet rs) {
+		ResultSetMetaData rsmd;
+		String pinta = null;
+		try {
+			rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+
+			while (rs.next()) {
+				for (int i = 1; i <= columnsNumber; i++) {
+					pinta += rsmd.getColumnName(i).toUpperCase() + ": ";
+					pinta += rs.getString(i);
+					pinta += "<br/>";
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return pinta;
+	}
+
+	/**
 	 * Cuenta los campos de un objto y crea la sentencia INSERT INTO values
 	 * 
 	 * @param String nomTabla, Objeto a insertar l
@@ -223,49 +278,51 @@ public class ControlDB {
 	}
 
 	/**
-	 * Borra libro a partir del id
+	 * Devuelve el Result Set de la consulta Xquery. Podría sustituir a select table
+	 * pero no quiero cambiar elcodigo XD<br>
+	 * Ordenado alfabeticamente.
 	 * 
-	 * @param idLibro
+	 * @param columName
+	 * @param tableName
+	 * @return ResultSet con consulta.
 	 * @throws SQLException
 	 */
+	public ResultSet selectColumnTable(String columName, String tableName) throws SQLException {
 
-	public void borrarLibro(Integer idLibro) throws SQLException {
-		// ATENCION posible enrror en no poner al final del detete ;
-		String delete = "DELETE FROM libros WHERE id = ?";
-
-		PreparedStatement ps = conn.prepareStatement(delete);
-		ps.setInt(1, idLibro);
-		ps.executeUpdate();
-		System.out.println("Libro borrado.");
-		ps.close();
-
-	}
-
-	public void updateTabla(Integer id, String nomTabla, String nomColumn, String newData) throws SQLException {
-		String dataType = tipoDato(nomColumn, nomTabla);
-		System.out.println("El tipo de dato a parsear es "+dataType);
-		//		parsearDato(newData);
-		// convertir de string al dato que sea necesario
-		String sql = "UPDATE " + nomTabla + " SET " + nomColumn + " = '" + newData+ "' WHERE id = " + id;
-
-		// ejecutar sentencia
-		Statement senten = conn.createStatement();
-		int row = senten.executeUpdate(sql);
-		System.out.println(nomColumn + " de fila nº " + row + "modificado correctamente. ");
-		senten.close();
-
-		// pregunta se puede poner para que la lectura sea de cualquier tipo de datç
-		// royo
-	}
-
-	private String tipoDato(String nomColumn, String nomTabla) throws SQLException {
-		Statement senten = conn.createStatement();
-		ResultSet rs = senten.executeQuery("SELECT " + nomColumn + " FROM " + nomTabla + ";");
-		return rs.getMetaData().getColumnTypeName(1);
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt
+				.executeQuery("SELECT DISTINCT " + columName + " FROM " + tableName + " ORDER BY " + columName);
+		return rs;
 	}
 
 	/**
-	 * Seleccona y muestra por consola la tabla cuyo nombre pasemos.
+	 * Selecciona el maximo id de la tabla y le suma 1.
+	 * 
+	 * @param tableName
+	 * @return max id +1
+	 * @throws SQLException
+	 */
+
+	public String selectNextId(String tableName) throws SQLException {
+		Statement stmt = conn.createStatement();
+
+		ResultSet rs = stmt.executeQuery("SELECT MAX(id) FROM " + tableName);
+		Integer maxId = null;
+		if (rs.next()) {
+			maxId = rs.getInt(1);
+
+			System.out.println("El valor máximo de ID es: " + maxId);
+		}
+		maxId++;
+
+		rs.close();
+		stmt.close();
+
+		return maxId.toString();
+	}
+
+	/**
+	 * Seleccona y muestra por CONSOLA la tabla cuyo nombre pasemos.
 	 * 
 	 * @param nombre de la tabla
 	 */
@@ -305,44 +362,127 @@ public class ControlDB {
 		System.out.println();
 	}
 
-	public String selectNextId(String tableName) throws SQLException {
+	/**
+	 * Devuelve todos los datos de una tabla pasada
+	 * 
+	 * @param tableName
+	 * @return
+	 * @throws SQLException
+	 */
+	public ResultSet selectTableRS(String tableName) throws SQLException {
+
 		Statement stmt = conn.createStatement();
-
-		ResultSet rs = stmt.executeQuery("SELECT MAX(id) FROM " + tableName);
-		Integer maxId = null;
-		if (rs.next()) {
-			maxId = rs.getInt(1);
-
-			System.out.println("El valor máximo de ID es: " + maxId);
-		}
-		maxId++;
-
-		rs.close();
-		stmt.close();
-
-		return maxId.toString();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName);
+		return rs;
 	}
 
-	public String pintaRS(ResultSet rs) {
-		ResultSetMetaData rsmd;
-		String pinta = null;
-		try {
-			rsmd = rs.getMetaData();
-			int columnsNumber = rsmd.getColumnCount();
+	/**
+	 * Devuelve el tipo de dato de una columna en una tabla.
+	 * 
+	 * @param nomColumn
+	 * @param nomTabla
+	 * @return String con tipo de dato de la columna
+	 * @throws SQLException
+	 */
+	private String tipoDato(String nomColumn, String nomTabla) throws SQLException {
+		Statement senten = conn.createStatement();
+		ResultSet rs = senten.executeQuery("SELECT " + nomColumn + " FROM " + nomTabla + ";");
+		return rs.getMetaData().getColumnTypeName(1);
+	}
 
-			while (rs.next()) {
-				for (int i = 1; i <= columnsNumber; i++) {
-					pinta += rsmd.getColumnName(i).toUpperCase() + ": ";
-					pinta += rs.getString(i);
-					pinta += "<br/>";
+	/**
+	 * Modifica la base de datos en el id pasado con un nuevo dato y l aaclumna y
+	 * tabla dicha.
+	 * 
+	 * @param id
+	 * @param nomTabla
+	 * @param nomColumn
+	 * @param newData
+	 * @throws SQLException
+	 */
+
+	public void updateTabla(Integer id, String nomTabla, String nomColumn, String newData) throws SQLException {
+		String dataType = tipoDato(nomColumn, nomTabla);
+		System.out.println("El tipo de dato a parsear es " + dataType);
+		// parsearDato(newData);
+		// convertir de string al dato que sea necesario
+		String sql = "UPDATE " + nomTabla + " SET " + nomColumn + " = '" + newData + "' WHERE id = " + id;
+
+		// ejecutar sentencia
+		Statement senten = conn.createStatement();
+		int row = senten.executeUpdate(sql);
+		System.out.println(nomColumn + " de fila nº " + row + "modificado correctamente. ");
+		senten.close();
+
+		// pregunta se puede poner para que la lectura sea de cualquier tipo de datç
+		// royo
+	}
+
+	public File escribirTableModel(TableModel model, File f) throws IOException {
+		// abrir writer
+		BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+		// calcular maxima anchura de celda por columna
+		int maxAnchoCelda;
+
+		
+
+		// escribir nombre columnas
+		for (int i = 0; i < model.getColumnCount(); i++) {
+			maxAnchoCelda = getAnchoColumna(i,model);
+			/////AQUI ME QUEDO
+			bw.write(String.format("%-"+maxAnchoCelda+"s", model.getColumnName(i));
+			if (i < model.getColumnCount() - 1)
+				bw.write(" | ");
+
+		}
+		bw.newLine();
+
+		// escribir datos
+		for (int i = 0; i < model.getRowCount(); i++) {
+			for (int j = 0; j < model.getColumnCount(); j++) {
+				bw.write(model.getValueAt(i, j).toString());
+				if (i < model.getColumnCount() - 1)
+					bw.write(" | ");
+			}
+			bw.newLine();
+
+		}
+		bw.flush();
+		bw.close();
+
+		System.out.println("Archivo escrito correctamente");
+		return f;
+	}
+
+	/**
+	 * 
+	 * @param i     numero de columna del modelo
+	 * @param model el modelo
+	 * @return el maximo de ancho
+	 */
+	private int getAnchoColumna(int i, TableModel model) {
+
+		// calculamos el ancho del nombreColumna
+		int columnNameLength = model.getColumnName(i).length();
+		// calculamos el Mac ancho del fila
+		int maxCellLength = 0;
+		int rowCount = model.getRowCount();
+		for (int row = 0; row < rowCount; row++) {
+			Object value = model.getValueAt(row, i);
+			if (value != null) {
+				int cellLength = value.toString().length();
+				if (cellLength > maxCellLength) {
+					maxCellLength = cellLength;
 				}
 			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 
-		return pinta;
+		// comparamos longitud de nombre columna con maxima longitud data
+		int maxAnchoCelda = (columnNameLength > maxCellLength) ? columnNameLength : maxCellLength;
+
+			//si la condicion entre parentesis es cierta se asigna columnName de lo contrario se asigna maxCell
+		return maxAnchoCelda;
 	}
 
+	
 }
