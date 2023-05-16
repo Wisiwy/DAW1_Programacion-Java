@@ -63,6 +63,7 @@ public class VenPrincipal extends JFrame {
 				}
 				VenTabla frameTabla = new VenTabla(control);
 				frameTabla.setVisible(true);
+				setVisible(false);
 
 			}
 		});

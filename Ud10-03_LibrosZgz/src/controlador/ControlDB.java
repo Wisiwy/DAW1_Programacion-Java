@@ -241,17 +241,17 @@ public class ControlDB {
 
 	}
 
-	public void updateTabla(Integer id, String nomTabla, String nomColumn) throws SQLException {
-		String nuevoDato = Leer.leerString("Intro nuevo " + nomColumn + ": ");
-//		String dataType = tipoDato(nomColumn, nomTabla);
-//		parsearDato(nuevoDato);
+	public void updateTabla(Integer id, String nomTabla, String nomColumn, String newData) throws SQLException {
+		String dataType = tipoDato(nomColumn, nomTabla);
+		System.out.println("El tipo de dato a parsear es "+dataType);
+		//		parsearDato(newData);
 		// convertir de string al dato que sea necesario
-		String sql = "UPDATE " + nomTabla + " SET " + nomColumn + " = '" + nuevoDato + "' WHERE id = " + id;
+		String sql = "UPDATE " + nomTabla + " SET " + nomColumn + " = '" + newData+ "' WHERE id = " + id;
 
 		// ejecutar sentencia
 		Statement senten = conn.createStatement();
 		int row = senten.executeUpdate(sql);
-		System.out.println(nomColumn + "de fila nº " + row + "modificado correctamente. ");
+		System.out.println(nomColumn + " de fila nº " + row + "modificado correctamente. ");
 		senten.close();
 
 		// pregunta se puede poner para que la lectura sea de cualquier tipo de datç
@@ -260,9 +260,8 @@ public class ControlDB {
 
 	private String tipoDato(String nomColumn, String nomTabla) throws SQLException {
 		Statement senten = conn.createStatement();
-		ResultSet rs = senten.executeQuery("SELECT " + nomColumn + " FROM" + nomTabla + ";");
-		System.out.println("Tipo de dato " + (rs.getMetaData().getColumnTypeName(0)));
-		return rs.getMetaData().getColumnTypeName(0);
+		ResultSet rs = senten.executeQuery("SELECT " + nomColumn + " FROM " + nomTabla + ";");
+		return rs.getMetaData().getColumnTypeName(1);
 	}
 
 	/**
