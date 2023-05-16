@@ -96,7 +96,6 @@ public class VenTabla extends JFrame {
 				ResultSet rs;
 				try {
 					rs = control.selectTableRS("libros");
-
 					tableVisualizacion.setModel(control.buildTableModel(rs));
 					System.out.println("entra rs despues de seteo");
 				} catch (SQLException e1) {
@@ -184,7 +183,9 @@ public class VenTabla extends JFrame {
 		JButton btnUpdateLibro = new JButton("Actualizar Libro");
 		btnUpdateLibro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Integer idLib = tableVisualizacion.getSelectedRow() + 1;
+				Integer row = tableVisualizacion.getSelectedRow();
+				System.out.println(tableVisualizacion.getValueAt(row, 0));
+				Integer idLib = Integer.parseInt(tableVisualizacion.getValueAt(row, 0).toString());
 				System.out.println("Fila selecionada: " + tableVisualizacion.getSelectedRow());
 				VenUpdateLibro updateLib = new VenUpdateLibro(control, idLib);
 				updateLib.setVisible(true);
@@ -261,6 +262,7 @@ public class VenTabla extends JFrame {
 		JButton btnSaveAsXml = new JButton("Guardar Xml");
 		btnSaveAsXml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 		btnSaveAsXml.setBounds(358, 95, 142, 41);
