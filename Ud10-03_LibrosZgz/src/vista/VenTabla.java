@@ -91,48 +91,6 @@ public class VenTabla extends JFrame {
 		btnVerTablas.setBounds(0, 0, 150, 46);
 		panelBtns.add(btnVerTablas);
 
-		JButton btnNuevoLib = new JButton("Nuevo Libro");
-		btnNuevoLib.setBounds(185, 0, 150, 46);
-		panelBtns.add(btnNuevoLib);
-
-		btnBorrarLibro = new JButton("Borrar Libro");
-		btnBorrarLibro.setBounds(0, 93, 150, 46);
-		panelBtns.add(btnBorrarLibro);
-
-		
-		//ACTUALIZAR LIBRO
-		JButton btnUpdateLibro = new JButton("Actualizar Libro");
-		btnUpdateLibro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Integer idLib = tableVisualizacion.getSelectedRow() + 1;
-				System.out.println("Fila selecionada: " + tableVisualizacion.getSelectedRow());
-				VenUpdateLibro updateLib = new VenUpdateLibro(control, idLib);
-				updateLib.setVisible(true);
-				
-				
-			}
-		});
-		btnUpdateLibro.setBounds(185, 93, 150, 46);
-		panelBtns.add(btnUpdateLibro);
-		
-		//BORRAR LIBRO
-		btnBorrarLibro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Integer idLib = tableVisualizacion.getSelectedRow() + 1;
-				System.out.println("Fila selecionada: " + tableVisualizacion.getSelectedRow());
-				VenBorrarLibro borraLib = new VenBorrarLibro(control, idLib);
-				borraLib.setVisible(true);
-
-			}
-		});
-		
-		//INSERTAR LIBRO
-		btnNuevoLib.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VenInsertLibro frame = new VenInsertLibro(control);
-				frame.setVisible(true);
-			}
-		});
 		btnVerTablas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ResultSet rs;
@@ -155,11 +113,6 @@ public class VenTabla extends JFrame {
 
 		tableVisualizacion = new JTable();
 		scrollVisualizacion.setViewportView(tableVisualizacion);
-
-		JSeparator separator = new JSeparator();
-		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setBounds(466, 493, 1, 217);
-		contentPane.add(separator);
 
 		// BUSCADOR DE LIBROS
 		JPanel panelBuscador = new JPanel();
@@ -197,8 +150,8 @@ public class VenTabla extends JFrame {
 
 				if (!txtBuscaTitulo.getText().isEmpty()) {
 					try {
-						ResultSet rsAux = control.personalizeQueary(
-								"SELECT * FROM libros WHERE titulo LIKE ('" + txtBuscaTitulo.getText() + "');");
+						ResultSet rsAux = control.personalizeQueary("SELECT * FROM libros WHERE LOWER(titulo) LIKE ('%"
+								+ txtBuscaTitulo.getText().toLowerCase() + "%');");
 						System.out.println("Buscqueda por titulo: " + txtBuscaTitulo.getText());
 						tableVisualizacion.setModel(control.buildTableModel(rsAux));
 					} catch (SQLException e1) {
@@ -207,8 +160,9 @@ public class VenTabla extends JFrame {
 					}
 				} else if (!txtBuscaAutor.getText().isEmpty()) {
 					try {
-						ResultSet rsAux2 = control.personalizeQueary(
-								"SELECT * FROM libros WHERE autor LIKE ('" + txtBuscaAutor.getText() + "');");
+
+						ResultSet rsAux2 = control.personalizeQueary("SELECT * FROM libros WHERE LOWER(autor) LIKE ('%"
+								+ txtBuscaAutor.getText().toLowerCase() + "%');");
 						tableVisualizacion.setModel(control.buildTableModel(rsAux2));
 
 					} catch (SQLException e1) {
@@ -224,34 +178,77 @@ public class VenTabla extends JFrame {
 		});
 		btnBuscarLib.setBounds(12, 148, 142, 41);
 		panelBuscador.add(btnBuscarLib);
-		
-		final JButton btnSaveAsTxt= new JButton("Guardar Txt");
+
+		// ACTUALIZAR LIBRO
+
+		JButton btnUpdateLibro = new JButton("Actualizar Libro");
+		btnUpdateLibro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Integer idLib = tableVisualizacion.getSelectedRow() + 1;
+				System.out.println("Fila selecionada: " + tableVisualizacion.getSelectedRow());
+				VenUpdateLibro updateLib = new VenUpdateLibro(control, idLib);
+				updateLib.setVisible(true);
+
+			}
+		});
+		btnUpdateLibro.setBounds(185, 93, 150, 46);
+		panelBtns.add(btnUpdateLibro);
+
+		// BORRAR LIBRO
+
+		btnBorrarLibro = new JButton("Borrar Libro");
+		btnBorrarLibro.setBounds(0, 93, 150, 46);
+		panelBtns.add(btnBorrarLibro);
+
+		btnBorrarLibro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Integer idLib = tableVisualizacion.getSelectedRow() + 1;
+				System.out.println("Fila selecionada: " + tableVisualizacion.getSelectedRow());
+				VenBorrarLibro borraLib = new VenBorrarLibro(control, idLib);
+				borraLib.setVisible(true);
+
+			}
+		});
+
+		// INSERTAR LIBRO
+		JButton btnNuevoLib = new JButton("Nuevo Libro");
+		btnNuevoLib.setBounds(185, 0, 150, 46);
+		panelBtns.add(btnNuevoLib);
+
+		btnNuevoLib.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VenInsertLibro frame = new VenInsertLibro(control);
+				frame.setVisible(true);
+			}
+		});
+
+		JSeparator separator = new JSeparator();
+		separator.setOrientation(SwingConstants.VERTICAL);
+		separator.setBounds(466, 493, 1, 217);
+		contentPane.add(separator);
+
+		final JButton btnSaveAsTxt = new JButton("Guardar Txt");
 		btnSaveAsTxt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				File f;
 				try {
-					//elegir el archivo
+					// elegir el archivo
 					JFileChooser fCho = new JFileChooser();
 					int result = fCho.showSaveDialog(btnSaveAsTxt);
 					if (result == JFileChooser.APPROVE_OPTION) {
 						System.out.println("Archivo selecionado bien");
-						f = fCho.getSelectedFile();	
-						//escribir el fichero con el table mode
-						control.escribirTableModel(tableVisualizacion.getModel(),f);
+						f = fCho.getSelectedFile();
+						// escribir el fichero con el table mode
+						control.escribirTableModel(tableVisualizacion.getModel(), f);
 						System.out.println("Archivo guardado correctamente");
-					
-					
-					}else if (result == JFileChooser.CANCEL_OPTION)	
+
+					} else if (result == JFileChooser.CANCEL_OPTION)
 						System.out.println("Guardado cancelado");
-						
-					
-					
-					//comprobar si existe desde la clase Ficheros
-					
-					//escribir el fichero con el table mode
-					
-					
-				
+
+					// comprobar si existe desde la clase Ficheros
+
+					// escribir el fichero con el table mode
+
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -260,7 +257,7 @@ public class VenTabla extends JFrame {
 		});
 		btnSaveAsTxt.setBounds(358, 27, 142, 41);
 		panelBuscador.add(btnSaveAsTxt);
-		
+
 		JButton btnSaveAsXml = new JButton("Guardar Xml");
 		btnSaveAsXml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

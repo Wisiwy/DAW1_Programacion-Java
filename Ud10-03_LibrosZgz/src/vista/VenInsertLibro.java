@@ -29,6 +29,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class VenInsertLibro extends JFrame {
 
@@ -186,6 +188,7 @@ public class VenInsertLibro extends JFrame {
 
 		// combo Tematica
 		cboxTematica = new JComboBox();
+		
 		cboxTematica.setEditable(true);
 		cboxTematica.setBounds(100, 2, 234, 28);
 		panelTematica.add(cboxTematica);
@@ -287,6 +290,12 @@ public class VenInsertLibro extends JFrame {
 
 		// ¿¿¿¿¿¿CUIDADO ES FINAL??????
 		 cboxUbi = new JComboBox();
+		 cboxUbi.addKeyListener(new KeyAdapter() {
+		 	@Override
+		 	public void keyTyped(KeyEvent e) {
+		 		System.out.println(e);
+		 	}
+		 });
 		cboxUbi.setEditable(true);
 		cboxUbi.setBounds(100, 3, 237, 28);
 		panelUbicacion.add(cboxUbi);

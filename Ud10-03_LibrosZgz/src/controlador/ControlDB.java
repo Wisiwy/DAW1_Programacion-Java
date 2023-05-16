@@ -417,35 +417,53 @@ public class ControlDB {
 		// pregunta se puede poner para que la lectura sea de cualquier tipo de datç
 		// royo
 	}
-
+/**
+ * Escribire en un file todas lo que aparece en un tableMode 
+ * @param model
+ * @param f
+ * @return file 
+ * @throws IOException
+ */
 	public File escribirTableModel(TableModel model, File f) throws IOException {
 		// abrir writer
 		BufferedWriter bw = new BufferedWriter(new FileWriter(f));
-		// calcular maxima anchura de celda por columna
-		int maxAnchoCelda;
-
 		
-
+		// calcular maxima anchura de celda por columna
+		int maxAnchoCelda = 0;
+		int maxAnchoTabla = 0;
+		String cabecera = "| ";
+		
 		// escribir nombre columnas
-		for (int i = 0; i < model.getColumnCount(); i++) {
+		for (int i = 0; i < 3; i++) {
 			maxAnchoCelda = getAnchoColumna(i,model);
-			/////AQUI ME QUEDO
-			bw.write(String.format("%-"+maxAnchoCelda+"s", model.getColumnName(i));
-			if (i < model.getColumnCount() - 1)
-				bw.write(" | ");
-
+			maxAnchoTabla+=maxAnchoCelda;
+			cabecera += String.format("%-"+maxAnchoCelda+"s", model.getColumnName(i));
+			if (i < 2)
+				cabecera+=" | ";
+			
 		}
+		bw.write(cabecera);
+		bw.newLine();
+		
+		//escribir lina de guiones
+		for (int i = 0; i < maxAnchoTabla; i++) {
+			bw.write("-");
+		}
+		bw.flush();
 		bw.newLine();
 
-		// escribir datos
+		// escribir row de la tabla
+		String fila = "| ";
 		for (int i = 0; i < model.getRowCount(); i++) {
-			for (int j = 0; j < model.getColumnCount(); j++) {
-				bw.write(model.getValueAt(i, j).toString());
-				if (i < model.getColumnCount() - 1)
-					bw.write(" | ");
+			for (int j = 0; j < 3; j++) {
+				maxAnchoCelda = getAnchoColumna(j,model);
+				fila += String.format("%-"+maxAnchoCelda+"s", model.getValueAt(i,j));
+				if (j < 2)
+					fila+=" | ";
 			}
+			bw.write(fila);
 			bw.newLine();
-
+			fila="| ";
 		}
 		bw.flush();
 		bw.close();
@@ -481,6 +499,7 @@ public class ControlDB {
 		int maxAnchoCelda = (columnNameLength > maxCellLength) ? columnNameLength : maxCellLength;
 
 			//si la condicion entre parentesis es cierta se asigna columnName de lo contrario se asigna maxCell
+		System.out.println("el ancho de columa es "+ maxAnchoCelda);
 		return maxAnchoCelda;
 	}
 
