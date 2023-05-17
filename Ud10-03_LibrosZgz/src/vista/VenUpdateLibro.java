@@ -67,7 +67,6 @@ public class VenUpdateLibro extends JFrame {
 		JButton btnUpdAcept = new JButton("Aceptar");
 		btnUpdAcept.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// update libro.
 				// recoger todos los textos
 				try {
 					System.out.println(titulo.getText());
@@ -82,6 +81,8 @@ public class VenUpdateLibro extends JFrame {
 					control.updateTabla(idLib, "libros", "edad", edad.getText());
 					control.updateTabla(idLib, "libros", "observaciones", observaciones.getText());
 					control.updateTabla(idLib, "libros", "fechaAdquisicion", fechaAdquisicion.getText());
+					
+					setVisible(false);
 
 					
 				} catch (SQLException e2) {

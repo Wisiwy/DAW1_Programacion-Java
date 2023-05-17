@@ -67,10 +67,10 @@ public class VenInsertLibro extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//insertar libro. 
 				List<String> strList = new ArrayList<String>();
-				//recoger todos los textos
 				
+				//recoger todos los textos
 				try {
-					strList.add(0, (control.selectNextId("libros")+1));
+					strList.add(0, control.selectNextId("libros"));
 				} catch (SQLException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
@@ -196,7 +196,6 @@ public class VenInsertLibro extends JFrame {
 		try {
 			ResultSet rs = control.selectColumnTable("tematica", "libros");
 			while (rs.next()) {
-				
 				String item = rs.getString("tematica");
 				cboxTematica.addItem(item);
 			}

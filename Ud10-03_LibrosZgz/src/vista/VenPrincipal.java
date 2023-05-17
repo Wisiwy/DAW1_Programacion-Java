@@ -31,8 +31,10 @@ public class VenPrincipal extends JFrame {
 	/**
 	 * Create the frame.
 	 * @param control 
+	 * @throws SQLException 
 	 */
-	public VenPrincipal(final ControlDB control) {
+	public VenPrincipal(final File fDb) throws SQLException {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 707, 537);
 		contentPane = new JPanel();
@@ -42,29 +44,41 @@ public class VenPrincipal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		
+		
+		//BOTON CONEXION
 		JButton btnConectarABd = new JButton("Conectar a BD");
 		btnConectarABd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				File f = new File("librosZgz.db");
-				// mensaje conexion establecida
+				//ETIQUETA MENSAJE
 				JLabel lblConn = new JLabel("");
 				lblConn.setFont(new Font("DialogInput", Font.BOLD, 16));
 				lblConn.setHorizontalAlignment(SwingConstants.CENTER);
 				lblConn.setBounds(192, 239, 302, 45);
 				contentPane.add(lblConn);
-				lblConn.setText("Conexion Establecida");
-				System.out.println("caca");
-				// abrimos ventana
-				try {
+				
+				//boton conectar creamos la conexion y la clase Control
+				try {				
+					Connection conn = DriverManager.getConnection("jdbc:sqlite:" + fDb.getAbsolutePath());
+					System.out.println("Conexion establecida!!");System.out.println();
+					ControlDB control = new ControlDB(conn);
+					
+					// mensaje conexion establecida
+					lblConn.setText("Conexion Establecida");
 					Thread.sleep(2000);
+					
+					// abrimos ventana
+					VenTabla frameTabla = new VenTabla(control);
+					frameTabla.setVisible(true);
+					setVisible(false);
+					
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				VenTabla frameTabla = new VenTabla(control);
-				frameTabla.setVisible(true);
-				setVisible(false);
-
 			}
 		});
 		btnConectarABd.setBounds(106, 334, 156, 40);

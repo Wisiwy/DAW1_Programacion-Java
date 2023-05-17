@@ -59,28 +59,28 @@ public class VenTabla extends JFrame {
 		contentPane.setLayout(null);
 
 		// CABECERA TITULO
-		JLabel lblCabTit = new JLabel("Biblioteca Casa ZGZ V0.1");
-		lblCabTit.setBounds(22, 0, 234, 55);
+		JLabel lblCabTit = new JLabel("Biblioteca Casa ZGZ v0.1");
+		lblCabTit.setBounds(22, 0, 299, 55);
 		lblCabTit.setHorizontalAlignment(SwingConstants.LEFT);
 		lblCabTit.setForeground(new Color(102, 0, 0));
 		lblCabTit.setFont(new Font("Caladea", Font.BOLD | Font.ITALIC, 24));
 		contentPane.add(lblCabTit);
 
-		JLabel lblCabePath = null;
-
 		// CABECERA UBICACION ARCHIVO
+		JLabel lblCabePath_1 = new JLabel();
 		try {
-			lblCabePath_1 = new JLabel("Bd:<br> " + control.DBname());
+			lblCabePath_1.setText(control.DBname());
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		lblCabePath_1.setBounds(700, 0, 372, 55);
+		lblCabePath_1.setBounds(466, 0, 606, 55);
 		lblCabePath_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblCabePath_1.setForeground(new Color(102, 0, 0));
 		lblCabePath_1.setFont(new Font("Caladea", Font.BOLD | Font.ITALIC, 10));
 		contentPane.add(lblCabePath_1);
 
+		// PANEL BOTONES
 		panelBtns = new JPanel();
 		panelBtns.setBounds(41, 511, 378, 158);
 		contentPane.add(panelBtns);
@@ -97,7 +97,7 @@ public class VenTabla extends JFrame {
 				try {
 					rs = control.selectTableRS("libros");
 					tableVisualizacion.setModel(control.buildTableModel(rs));
-					System.out.println("entra rs despues de seteo");
+					System.out.println("BtnVerLibros: Entra en RS de l quiessy");
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -137,7 +137,7 @@ public class VenTabla extends JFrame {
 		lblBusAutori.setBounds(12, 80, 70, 15);
 		panelBuscador.add(lblBusAutori);
 
-		final JLabel lblError = new JLabel("Introduzca titulo o autor a encontrar.");
+		final JLabel lblError = new JLabel();
 		lblError.setVisible(false);
 		lblError.setForeground(new Color(192, 28, 40));
 		lblError.setBounds(172, 161, 278, 15);
@@ -146,7 +146,7 @@ public class VenTabla extends JFrame {
 		JButton btnBuscarLib = new JButton("Buscar");
 		btnBuscarLib.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				lblError.setVisible(false);
 				if (!txtBuscaTitulo.getText().isEmpty()) {
 					try {
 						ResultSet rsAux = control.personalizeQueary("SELECT * FROM libros WHERE LOWER(titulo) LIKE ('%"
@@ -163,12 +163,14 @@ public class VenTabla extends JFrame {
 						ResultSet rsAux2 = control.personalizeQueary("SELECT * FROM libros WHERE LOWER(autor) LIKE ('%"
 								+ txtBuscaAutor.getText().toLowerCase() + "%');");
 						tableVisualizacion.setModel(control.buildTableModel(rsAux2));
+						System.out.println("Buscqueda por titulo: " + txtBuscaAutor.getText());
 
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				} else {
+					lblError.setText("Introduzca titulo o autor a encontrar.");
 					lblError.setVisible(true);
 
 				}
@@ -183,13 +185,21 @@ public class VenTabla extends JFrame {
 		JButton btnUpdateLibro = new JButton("Actualizar Libro");
 		btnUpdateLibro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Integer row = tableVisualizacion.getSelectedRow();
-				System.out.println(tableVisualizacion.getValueAt(row, 0));
-				Integer idLib = Integer.parseInt(tableVisualizacion.getValueAt(row, 0).toString());
-				System.out.println("Fila selecionada: " + tableVisualizacion.getSelectedRow());
-				VenUpdateLibro updateLib = new VenUpdateLibro(control, idLib);
-				updateLib.setVisible(true);
+				lblError.setVisible(false);
 
+				if (tableVisualizacion.getSelectedRow() != -1) {
+					// recoge la fila selecionada
+					Integer row = tableVisualizacion.getSelectedRow();
+					System.out.println(tableVisualizacion.getValueAt(row, 0));
+					Integer idLib = Integer.parseInt(tableVisualizacion.getValueAt(row, 0).toString());
+					System.out.println("Fila selecionada: " + tableVisualizacion.getSelectedRow());
+					VenUpdateLibro updateLib = new VenUpdateLibro(control, idLib);
+					updateLib.setVisible(true);
+				} else {
+					lblError.setText("Seleccion fila en la tabla. ");
+					lblError.setVisible(true);
+
+				}
 			}
 		});
 		btnUpdateLibro.setBounds(185, 93, 150, 46);
@@ -203,11 +213,18 @@ public class VenTabla extends JFrame {
 
 		btnBorrarLibro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Integer idLib = tableVisualizacion.getSelectedRow() + 1;
-				System.out.println("Fila selecionada: " + tableVisualizacion.getSelectedRow());
-				VenBorrarLibro borraLib = new VenBorrarLibro(control, idLib);
-				borraLib.setVisible(true);
+				lblError.setVisible(false);
 
+				if (tableVisualizacion.getSelectedRow() != -1) {
+
+					Integer idLib = tableVisualizacion.getSelectedRow() + 1;
+					System.out.println("Fila selecionada: " + tableVisualizacion.getSelectedRow());
+					VenBorrarLibro borraLib = new VenBorrarLibro(control, idLib);
+					borraLib.setVisible(true);
+				} else {
+					lblError.setText("Seleccion fila en la tabla. ");
+					lblError.setVisible(true);
+				}
 			}
 		});
 
@@ -262,7 +279,7 @@ public class VenTabla extends JFrame {
 		JButton btnSaveAsXml = new JButton("Guardar Xml");
 		btnSaveAsXml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 		});
 		btnSaveAsXml.setBounds(358, 95, 142, 41);

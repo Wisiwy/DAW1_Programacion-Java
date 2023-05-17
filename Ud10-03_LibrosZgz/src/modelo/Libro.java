@@ -22,18 +22,28 @@ public class Libro {
 	public Libro() {
 	};
 
+	/**
+	 * Constructor a partir de una lista de str. Controla parseos de los elemenos number. 
+	 * Si da esta vacio o da error de formato pone 0.  *
+	 * 
+	 * @param strList
+	 */
 	public Libro(List<String> strList) {
-		this.setNum(Integer.parseInt(strList.get(0)));
+		
+		// control de parseo NUM (ID) a Integer sea correcto
+				try {
+					this.setNum(Integer.parseInt(strList.get(0)));
+				} catch (NumberFormatException e) {
+					System.out.println("Mal formato de id.");
+				}
 		this.setTitulo(strList.get(1));
 		this.setAutor(strList.get(2));
 
-		
-		//controlamo que el parseo se haga con algo
-		this.setAnyo(Integer.parseInt(strList.get(3)));
+		// control de parseo ANYO a Integer sea correcto
 		try {
-			this.setAnyo(Integer.parseInt(strList.get(3)));
+			this.setPaginas(Integer.parseInt(strList.get(3)));
 		} catch (NumberFormatException e) {
-			if (strList.get(8) == "")
+			if (strList.get(3) == "")
 				this.setAnyo(0);
 			else {
 				System.err.println("Error de formato en id " + strList.get(0));
@@ -45,6 +55,8 @@ public class Libro {
 		this.setUbicacion(strList.get(5));
 		this.setEditorial(strList.get(6));
 		this.setIsbn(strList.get(7));
+
+		// control de parseo PAGINAS a Integer sea correcto
 		try {
 			this.setPaginas(Integer.parseInt(strList.get(8)));
 		} catch (NumberFormatException e) {
@@ -55,10 +67,10 @@ public class Libro {
 				this.setPaginas(0);
 			}
 		}
-
 		this.setEdad(strList.get(9));
 		this.setObservaciones(strList.get(10));
 		this.setFechaAdquisicion(strList.get(10));
+
 	}
 
 	public Libro(Integer num, String titulo, String autor, Integer año, String tematica, String ubicacion,
@@ -82,7 +94,7 @@ public class Libro {
 	@Override
 	public String toString() {
 		return String.format("Id: %d .\t %s \n Autor: %s " + "\n Editorial: %s \t Año: %d" + "\n ISBN: %s"
-				+ "\n Tematica: %s" + "\n Ubicacion: %s", num, titulo, autor,  editorial, anyo, isbn, tematica,
+				+ "\n Tematica: %s" + "\n Ubicacion: %s", num, titulo, autor, editorial, anyo, isbn, tematica,
 				ubicacion);
 	}
 

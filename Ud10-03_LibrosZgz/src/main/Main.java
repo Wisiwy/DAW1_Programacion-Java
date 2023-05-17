@@ -18,70 +18,84 @@ import vista.VenPrincipal;
 
 public class Main {
 	public static void main(String[] args) {
-////----------------------------------------------------------------------------
-		// crear conexion
-		try {
-			File f = new File("librosZgz.db");
-			f.delete();
-			if (!f.exists())
-				f.createNewFile();
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:" + f.getAbsolutePath());
-			System.out.println("Conexion establecida!!");
+		File f = new File("librosZgz.db");
 
 ////----------------------------------------------------------------------------
-			// creamos DB y su tabla libro
-			CreateDB create = new CreateDB(conn);
-			// tabla
-			String nombreTabla = "libros";
-			if (create.tablaExists(nombreTabla)) // comprueba si existe la tabla
-				create.dropTable(nombreTabla);
-			create.createTableLibros(nombreTabla);
-			System.out.println("Tabla" + nombreTabla + "creada.");
-			System.out.println();
-			
+		// Si el archivo existe
+		if (!f.exists()) {
+			try {
+				// crear fichero
+				f.createNewFile();
+				// crear conexion
+				Connection conn = DriverManager.getConnection("jdbc:sqlite:" + f.getAbsolutePath());
+				System.out.println("Conexion establecida!!");
+				System.out.println();
 ////----------------------------------------------------------------------------
-//			// manejaDB para meter un ejemplo de libro
-			ControlDB control = new ControlDB(conn);
-//
-////				// TEST : PROBAR CON UNA CLASE LIBRO
+				// CREACION CLASE CREATE Y ESQUEMA TABLA LIBROS
+				CreateDB create = new CreateDB(conn);
+				// comprueba si existe la tabla
+				String nombreTabla = "libros";
+				// comprueba si existe libros y lo borra en cado de que exista
+				if (create.tablaExists(nombreTabla))
+					create.dropTable(nombreTabla);
+				create.createTableLibros(nombreTabla);
+				System.out.println("Tabla" + nombreTabla + "creada.");
+				System.out.println();
+
+				//
+////----------------------------------------------------------------------------
+////		// TEST : PROBAR CON UNA CLASE LIBRO. Con la clase CONTROL.
+				ControlDB control = new ControlDB(conn);
+
 ////				Libro libroAux = new Libro(12, "titulo", "autortest", 1991, "estudios", "biblioteca", "editorialtest",
 ////						"isbn 1231", 345, "a apartir de 12 anyos", "biblioteca guay", "12/12/12");
-////				//insertar libro
+////				
+				// insertar libro
 ////				control.insertLibro(libroAux);
 ////				control.selectTabla("libros");
+
 ////				//update libro
 ////				control.updateTabla(12, nombreTabla, "autor");	
 ////				control.selectTabla("libros");
-////				//borrar libro
+////				
+				// borrar libro
 ////				control.borrarLibro(12);
-////				control.selectTabla("libros");
-//			
+////				control.selectTabla("libros");	
 ////----------------------------------------------------------------------------
 //			//leer CSV 
-				control.cargarExcelCsv(new File ("LibrosZaragoza2.csv"));
+				control.cargarExcelCsv(new File("LibrosZaragoza2.csv"));
+				// dibujamos la tabla en consolla
 				control.selectTabla(control.selectTableRS("libros"));
-				
-			//lanzar Windows Builder
-				try {
-					VenPrincipal frame = new VenPrincipal(control);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
 
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 //		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			//SI .BD NO EXISTE
+			// conectamos y creamos una clase control
+			try {
+
+				// lanzar Windows Builder
+				VenPrincipal frame = new VenPrincipal(f);
+				frame.setVisible(true);
+
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 		}
 
-}	
+	}
 
 	private static Libro creaLibro() {
 		Libro aux = new Libro();

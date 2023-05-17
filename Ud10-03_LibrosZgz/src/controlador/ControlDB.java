@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -28,6 +29,7 @@ public class ControlDB {
 	private Connection conn;
 
 	public ControlDB(Connection c) {
+	
 		this.conn = c;
 	}
 
@@ -290,8 +292,7 @@ public class ControlDB {
 	public ResultSet selectColumnTable(String columName, String tableName) throws SQLException {
 
 		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt
-				.executeQuery("SELECT DISTINCT " + columName + " FROM " + tableName + " ORDER BY " + columName);
+		ResultSet rs = stmt.executeQuery("SELECT DISTINCT " + columName + " FROM " + tableName + " ORDER BY " + columName);
 		return rs;
 	}
 
