@@ -83,6 +83,7 @@ public class VenUpdateLibro extends JFrame {
 					control.updateTabla(idLib, "libros", "fechaAdquisicion", fechaAdquisicion.getText());
 					
 					setVisible(false);
+					
 
 					
 				} catch (SQLException e2) {

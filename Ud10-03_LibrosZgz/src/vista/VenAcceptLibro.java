@@ -47,6 +47,8 @@ public class VenAcceptLibro extends JFrame {
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
+
+				
 			}
 		});
 		btnAceptar.setBounds(147, 445, 142, 41);

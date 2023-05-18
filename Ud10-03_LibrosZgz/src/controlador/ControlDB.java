@@ -19,6 +19,20 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import aUtilidad.Dibujo;
 import aUtilidad.Ficheros;
@@ -502,6 +516,54 @@ public class ControlDB {
 			//si la condicion entre parentesis es cierta se asigna columnName de lo contrario se asigna maxCell
 		System.out.println("el ancho de columa es "+ maxAnchoCelda);
 		return maxAnchoCelda;
+	}
+
+
+
+	public void escribirXMLTableModel(TableModel model, File f) throws ParserConfigurationException, TransformerException {
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		//diferencia entre leer y escribir, se crea no se parse
+		Document doc = db.newDocument();
+		
+		//raiz
+		Element eRaiz= doc.createElement("LIBROS");
+		doc.appendChild(eRaiz);
+		
+		
+		for (int i = 0; i < model.getRowCount(); i++) {
+			//definimos el nodo qeu contiene elementos
+			Element eLib = doc.createElement("LIBRO");
+			eRaiz.appendChild(eLib);
+			
+			//definimos el atributo			
+			Attr aLib = doc.createAttribute("id");
+			aLib.setValue(model.getValueAt(i, 0).toString());
+			eLib.setAttributeNode(aLib);	
+			
+			//elementos
+			for (int j = 1; j < model.getColumnCount(); j++) {
+				//definimos elementos
+				Element element = doc.createElement(model.getColumnName(j));
+				element.appendChild(doc.createTextNode(model.getValueAt(i, j).toString()));
+				eLib.appendChild(element);
+				
+			}
+		}
+		
+		//generar xml
+				TransformerFactory tf = TransformerFactory.newInstance();
+				Transformer t = tf.newTransformer();
+				//**darle formato
+				t.setOutputProperty(OutputKeys.INDENT,"yes");
+				
+				DOMSource source = new DOMSource(doc);
+				StreamResult result = new StreamResult(f);
+				t.transform(source, result);
+		
+		
+		
+		
 	}
 
 	

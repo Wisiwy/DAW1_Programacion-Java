@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import controlador.ControlDB;
 
@@ -86,7 +88,7 @@ public class VenTabla extends JFrame {
 		contentPane.add(panelBtns);
 		panelBtns.setLayout(null);
 
-		// BOTON VER TABLAS
+		// BOTON VER LIBROS
 		btnVerTablas = new JButton("Ver Libros");
 		btnVerTablas.setBounds(0, 0, 150, 46);
 		panelBtns.add(btnVerTablas);
@@ -97,7 +99,7 @@ public class VenTabla extends JFrame {
 				try {
 					rs = control.selectTableRS("libros");
 					tableVisualizacion.setModel(control.buildTableModel(rs));
-					System.out.println("BtnVerLibros: Entra en RS de l quiessy");
+					System.out.println("BtnVerLibros: Entra en RS del queary");
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -217,7 +219,10 @@ public class VenTabla extends JFrame {
 
 				if (tableVisualizacion.getSelectedRow() != -1) {
 
-					Integer idLib = tableVisualizacion.getSelectedRow() + 1;
+					// recoge la fila selecionada
+					Integer row = tableVisualizacion.getSelectedRow();
+					System.out.println(tableVisualizacion.getValueAt(row, 0));
+					Integer idLib = Integer.parseInt(tableVisualizacion.getValueAt(row, 0).toString());
 					System.out.println("Fila selecionada: " + tableVisualizacion.getSelectedRow());
 					VenBorrarLibro borraLib = new VenBorrarLibro(control, idLib);
 					borraLib.setVisible(true);
@@ -237,6 +242,7 @@ public class VenTabla extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				VenInsertLibro frame = new VenInsertLibro(control);
 				frame.setVisible(true);
+				setVisible(false);
 			}
 		});
 
@@ -248,6 +254,8 @@ public class VenTabla extends JFrame {
 		final JButton btnSaveAsTxt = new JButton("Guardar Txt");
 		btnSaveAsTxt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				lblError.setVisible(false);
+
 				File f;
 				try {
 					// elegir el archivo
@@ -258,7 +266,9 @@ public class VenTabla extends JFrame {
 						f = fCho.getSelectedFile();
 						// escribir el fichero con el table mode
 						control.escribirTableModel(tableVisualizacion.getModel(), f);
-						System.out.println("Archivo guardado correctamente");
+						lblError.setText("Archivo guardado correctamente");
+						lblError.setVisible(true);
+
 
 					} else if (result == JFileChooser.CANCEL_OPTION)
 						System.out.println("Guardado cancelado");
@@ -279,6 +289,28 @@ public class VenTabla extends JFrame {
 		JButton btnSaveAsXml = new JButton("Guardar Xml");
 		btnSaveAsXml.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				lblError.setVisible(false);
+
+				File f;
+				// elegir el archivo
+				JFileChooser fCho = new JFileChooser();
+				int result = fCho.showSaveDialog(btnSaveAsTxt);
+				if (result == JFileChooser.APPROVE_OPTION) {
+					System.out.println("Archivo selecionado bien");
+					f = fCho.getSelectedFile();
+					// escribir el fichero XML con el table mode
+					try {
+						control.escribirXMLTableModel(tableVisualizacion.getModel(), f);
+					} catch (ParserConfigurationException | TransformerException e1) {
+						e1.printStackTrace();
+					}
+					lblError.setText("Archivo guardado correctamente");
+					lblError.setVisible(true);
+
+
+				} else if (result == JFileChooser.CANCEL_OPTION)
+					System.out.println("Guardado cancelado");
+				
 
 			}
 		});
