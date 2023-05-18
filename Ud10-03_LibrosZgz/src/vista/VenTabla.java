@@ -50,7 +50,7 @@ public class VenTabla extends JFrame {
 	 * 
 	 * @param conn
 	 */
-	public VenTabla(final ControlDB control) {
+	public VenTabla( ControlDB control) {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1084, 750);
@@ -242,7 +242,6 @@ public class VenTabla extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				VenInsertLibro frame = new VenInsertLibro(control);
 				frame.setVisible(true);
-				setVisible(false);
 			}
 		});
 

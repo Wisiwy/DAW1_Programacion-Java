@@ -53,8 +53,8 @@ public class VenInsertLibro extends JFrame {
 	 * @param control
 	 */
 	//¿?¿?¿?¿? SI DA PROBLEMAS EL FINAL CREAR UNA VARIABLE EN ESTA MISMA CLASE CONTROL Y AÑADIRLAS
-	public VenInsertLibro(final ControlDB control) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public VenInsertLibro( ControlDB control) {
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 525, 722);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

@@ -33,7 +33,7 @@ public class VenPrincipal extends JFrame {
 	 * @param control 
 	 * @throws SQLException 
 	 */
-	public VenPrincipal(final File fDb) throws SQLException {
+	public VenPrincipal( File fDb) throws SQLException {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 707, 537);
