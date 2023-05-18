@@ -1,0 +1,27 @@
+1::Lewis Hamilton::Mercedes F1::W11::20
+2::Kimi Raikkonen::Ferrari::SF71H::20
+3::Charles Leclerc::Ferrari::SF90::20
+4::Rubens Barrichello::Ferrari::F2004::20
+5::Juan Pablo Montoya::Williams-BMW::FW24::20
+6::Keke Rosberg::Williams::FW10 Honda::20
+7::Michael Schumacher::Ferrari::F2003-GA::20
+8::Ayrton Senna::McLaren::MP4/6::20
+9::Juan Pablo Montoya::McLaren Mercedes::MP4/20::20
+10::Alain Prost::Williams::FW15C::20
+11::Lewis Hamilton::Mercedes AMG F1::W07::20
+12::Nelson Piquet::Williams-Honda::FW11B::20
+01;;Monza
+02;;Gran Bretaña
+03;;Austria
+1:;01:;2020::264,363 km/h
+2:;01:;2018::263,588 km/h
+3:;01:;2019::262,963 km/h
+4:;01:;2004::260,395 km/h
+5:;01:;2002::259,828 km/h
+6:;02:;1985::259,005 km/h
+7:;01:;2003::257,584 km/h
+8:;01:;1991::257,416 km/h
+9:;01:;2005::257,295 km/h
+10:;01:;1993::257,209 km/h
+11:;01:;2016::257,038 km/h
+12:;03:;1987::256,622 km/h
