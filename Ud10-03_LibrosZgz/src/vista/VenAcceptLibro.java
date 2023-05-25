@@ -28,7 +28,7 @@ public class VenAcceptLibro extends JFrame {
 	 * @param control 
 	 */
 	public VenAcceptLibro(Libro libro) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 450, 542);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -47,6 +47,7 @@ public class VenAcceptLibro extends JFrame {
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
+				
 
 				
 			}

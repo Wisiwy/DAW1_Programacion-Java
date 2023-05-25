@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import com.mysql.jdbc.ResultSetMetaData;
 
 import aUtilidad.Dibujo;
 import aUtilidad.Ficheros;

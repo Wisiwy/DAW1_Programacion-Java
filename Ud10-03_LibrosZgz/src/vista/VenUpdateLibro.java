@@ -53,9 +53,9 @@ public class VenUpdateLibro extends JFrame {
 	 * @param idLib
 	 */
 	// CONTROL Y AÑADIRLAS
-	public VenUpdateLibro(final ControlDB control, final Integer idLib) {
+	public VenUpdateLibro( ControlDB control,  Integer idLib) {
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 525, 722);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

@@ -30,9 +30,9 @@ public class VenBorrarLibro extends JFrame {
 	 * Create the frame.
 	 * @param control 
 	 */
-	public VenBorrarLibro(final ControlDB control, final Integer idLibro) {
+	public VenBorrarLibro( ControlDB control,  Integer idLibro) {
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 450, 542);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
