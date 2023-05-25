@@ -117,6 +117,7 @@ public class ControlDB {
 
 		while (linea != null) {
 			if (linea.matches("^\\d.*")) { // ^ siginifica principio strin \d numero
+				
 				// creamos una lista de 12 de tamaño con el array del split
 				// y setemos nulos si fuera necesario
 				String[] strArray = linea.split(";");
